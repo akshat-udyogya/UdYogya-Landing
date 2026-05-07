@@ -18,7 +18,7 @@ export function LenisProvider({ children }: { children: ReactNode }) {
 
     lenis.on('scroll', ScrollTrigger.update)
 
-    const rafCallback = (time: number) => lenis.raf(time * 1000)
+    const rafCallback = (time: number) => lenis.raf(time)
     gsap.ticker.add(rafCallback)
     gsap.ticker.lagSmoothing(0)
 
