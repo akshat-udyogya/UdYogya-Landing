@@ -2,10 +2,13 @@ import React from 'react'
 import { render, screen } from '@testing-library/react'
 
 jest.mock('framer-motion', () => ({
-  motion: { div: 'div', span: 'span' },
-  useInView: () => false,
-  useSpring: () => ({ set: jest.fn() }),
-  useTransform: () => '0',
+  motion: {
+    div:  ({ children, initial, animate, whileInView, viewport, transition, ...rest }: React.HTMLAttributes<HTMLDivElement> & Record<string, unknown>) => <div {...rest}>{children}</div>,
+    span: ({ children, initial, animate, whileInView, viewport, transition, ...rest }: React.HTMLAttributes<HTMLSpanElement> & Record<string, unknown>) => <span {...rest}>{children}</span>,
+  },
+  useInView:    () => false,
+  useSpring:    () => ({ set: jest.fn() }),
+  useTransform: (_: unknown, fn: (v: number) => string) => fn(0),
 }))
 import { Button } from '@/components/ui/Button'
 import { SectionHeading } from '@/components/ui/SectionHeading'
