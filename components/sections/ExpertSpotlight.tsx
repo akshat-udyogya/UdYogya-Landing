@@ -1,7 +1,7 @@
 'use client'
 import { useRef } from 'react'
 import type { MouseEvent } from 'react'
-import { motion } from 'framer-motion'
+import { motion, useAnimationControls } from 'framer-motion'
 import { SectionHeading } from '@/components/ui/SectionHeading'
 import { EXPERTS } from '@/lib/constants'
 
@@ -66,6 +66,19 @@ function ExpertCard({ expert }: { expert: Expert }) {
 }
 
 export default function ExpertSpotlight() {
+  const controls = useAnimationControls()
+
+  const handleMouseEnter = () => {
+    controls.stop()
+  }
+
+  const handleMouseLeave = () => {
+    void controls.start({
+      x: [null, '-50%'],
+      transition: { duration: 30, repeat: Infinity, ease: 'linear' },
+    })
+  }
+
   return (
     <section className="bg-surface py-24 overflow-hidden">
       <div className="px-8 md:px-16 mb-12">
@@ -75,13 +88,19 @@ export default function ExpertSpotlight() {
         />
       </div>
 
-      {/* Auto-scroll carousel — duplicated for seamless infinite loop */}
       <div className="relative overflow-hidden">
         <motion.div
           className="flex gap-6 w-max"
-          animate={{ x: ['0%', '-50%'] }}
-          transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
-          whileHover={{ animationPlayState: 'paused' } as never}
+          animate={controls}
+          initial={{ x: '0%' }}
+          onViewportEnter={() =>
+            void controls.start({
+              x: [null, '-50%'],
+              transition: { duration: 30, repeat: Infinity, ease: 'linear' },
+            })
+          }
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
         >
           {[...EXPERTS, ...EXPERTS].map((expert, i) => (
             <ExpertCard key={`${expert.name}-${i}`} expert={expert} />

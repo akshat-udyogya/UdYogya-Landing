@@ -6,12 +6,18 @@ jest.mock('framer-motion', () => ({
     div: ({
       children,
       initial, animate, whileInView, viewport, transition, whileHover,
+      onViewportEnter, onMouseEnter, onMouseLeave,
       ...rest
     }: React.HTMLAttributes<HTMLDivElement> & {
       initial?: unknown; animate?: unknown; whileInView?: unknown;
       viewport?: unknown; transition?: unknown; whileHover?: unknown;
+      onViewportEnter?: () => void; onMouseEnter?: () => void; onMouseLeave?: () => void;
     }) => <div {...rest}>{children}</div>,
   },
+  useAnimationControls: () => ({
+    start: jest.fn().mockResolvedValue(undefined),
+    stop: jest.fn(),
+  }),
 }))
 
 import ExpertSpotlight from '@/components/sections/ExpertSpotlight'
