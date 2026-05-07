@@ -3,7 +3,23 @@ import { render, screen } from '@testing-library/react'
 
 jest.mock('framer-motion', () => ({
   motion: {
-    div: ({ children, ...rest }: React.HTMLAttributes<HTMLDivElement>) => <div {...rest}>{children}</div>,
+    div: ({
+      children,
+      initial,
+      animate,
+      whileInView,
+      viewport,
+      transition,
+      onViewportEnter,
+      ...rest
+    }: React.HTMLAttributes<HTMLDivElement> & {
+      initial?: unknown
+      animate?: unknown
+      whileInView?: unknown
+      viewport?: unknown
+      transition?: unknown
+      onViewportEnter?: () => void
+    }) => <div {...rest}>{children}</div>,
   },
 }))
 
@@ -32,5 +48,12 @@ describe('HowItWorks', () => {
   it('renders section heading', () => {
     render(<HowItWorks />)
     expect(screen.getByText('How It Works')).toBeInTheDocument()
+  })
+
+  it('renders connector arrows between steps', () => {
+    render(<HowItWorks />)
+    // Two → arrows for 3 steps (between 1-2 and 2-3)
+    const arrows = screen.getAllByText('→')
+    expect(arrows).toHaveLength(2)
   })
 })

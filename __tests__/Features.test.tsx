@@ -5,8 +5,23 @@ jest.mock('next/dynamic', () => (_: unknown) => () => <div data-testid="phone-mo
 
 jest.mock('framer-motion', () => ({
   motion: {
-    div: ({ children, onViewportEnter, ...rest }: React.HTMLAttributes<HTMLDivElement> & { onViewportEnter?: () => void }) =>
-      <div {...rest}>{children}</div>,
+    div: ({
+      children,
+      initial,
+      animate,
+      whileInView,
+      viewport,
+      transition,
+      onViewportEnter,
+      ...rest
+    }: React.HTMLAttributes<HTMLDivElement> & {
+      initial?: unknown
+      animate?: unknown
+      whileInView?: unknown
+      viewport?: unknown
+      transition?: unknown
+      onViewportEnter?: () => void
+    }) => <div {...rest}>{children}</div>,
   },
 }))
 

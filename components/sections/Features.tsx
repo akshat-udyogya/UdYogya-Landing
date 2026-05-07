@@ -1,14 +1,12 @@
 'use client'
 import { useState } from 'react'
 import dynamic from 'next/dynamic'
-import { Suspense } from 'react'
-import { Canvas } from '@react-three/fiber'
 import { motion } from 'framer-motion'
 import { SectionHeading } from '@/components/ui/SectionHeading'
 import { FEATURES } from '@/lib/constants'
 
-const PhoneMockup = dynamic(
-  () => import('@/components/three/PhoneMockup').then(m => ({ default: m.PhoneMockup })),
+const FeaturesCanvas = dynamic(
+  () => import('@/components/three/FeaturesCanvas'),
   { ssr: false }
 )
 
@@ -26,17 +24,7 @@ export default function Features() {
         <div className="mt-16 flex flex-col md:flex-row gap-12 items-start">
           {/* Sticky phone — left column */}
           <div className="w-full md:w-1/2 md:sticky md:top-24 h-[420px]" aria-hidden="true">
-            <Canvas
-              dpr={[1, 1.5]}
-              camera={{ position: [0, 0, 5], fov: 45 }}
-              frameloop="demand"
-            >
-              <ambientLight intensity={0.6} />
-              <pointLight position={[3, 3, 3]} intensity={1.2} />
-              <Suspense fallback={null}>
-                <PhoneMockup screenSrc={activeScreen} scale={1.5} />
-              </Suspense>
-            </Canvas>
+            <FeaturesCanvas screenSrc={activeScreen} />
           </div>
 
           {/* Feature cards — right column */}
