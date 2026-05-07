@@ -2,9 +2,18 @@ import type { Config } from 'jest'
 
 const config: Config = {
   testEnvironment: 'jsdom',
-  transform: { '^.+\\.tsx?$': ['ts-jest', { tsconfig: { jsx: 'react-jsx' } }] },
+  passWithNoTests: true,
+  transform: {
+    '^.+\\.tsx?$': ['ts-jest', {
+      tsconfig: {
+        jsx: 'react-jsx',
+        moduleResolution: 'node',
+      },
+    }],
+  },
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/$1',
+    '\\.(css|scss|sass)$': '<rootDir>/__mocks__/fileMock.ts',
     '\\.(png|jpg|svg|gif)$': '<rootDir>/__mocks__/fileMock.ts',
   },
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
