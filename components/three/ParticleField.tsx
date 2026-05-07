@@ -1,9 +1,10 @@
 'use client'
-import { useRef, useMemo } from 'react'
+import { useRef, useMemo, useEffect } from 'react'
 import { useFrame, useThree } from '@react-three/fiber'
 import * as THREE from 'three'
 
 const PARTICLE_COUNT = 3000
+const LINE_PARTICLE_LIMIT = 600
 const PROXIMITY = 0.8
 const BLUE   = new THREE.Color('#1A73E8')
 const ORANGE = new THREE.Color('#FF6B35')
@@ -12,6 +13,7 @@ export function ParticleField() {
   const pointsRef = useRef<THREE.Points>(null!)
   const linesRef  = useRef<THREE.LineSegments>(null!)
   const mouse     = useRef({ x: 0, y: 0 })
+  const parallax  = useRef({ x: 0, y: 0 })
   const { size }  = useThree()
 
   const positions = useMemo(() => {
@@ -35,7 +37,7 @@ export function ParticleField() {
     return arr
   }, [])
 
-  useMemo(() => {
+  useEffect(() => {
     if (typeof window === 'undefined') return
     const onMove = (e: MouseEvent) => {
       mouse.current.x = (e.clientX / size.width  - 0.5) * 2
@@ -47,12 +49,14 @@ export function ParticleField() {
 
   useFrame((_, delta) => {
     if (!pointsRef.current) return
+    // Drift: always accumulating
     pointsRef.current.rotation.y += delta * 0.03
     pointsRef.current.rotation.x += delta * 0.01
-    pointsRef.current.rotation.x +=
-      (mouse.current.y * 0.05 - pointsRef.current.rotation.x) * 0.05
-    pointsRef.current.rotation.y +=
-      (mouse.current.x * 0.05 - pointsRef.current.rotation.y) * 0.05
+    // Parallax: lerp toward mouse position (±5° = ±0.087 rad), additive offset
+    parallax.current.x += (mouse.current.y * 0.087 - parallax.current.x) * 0.05
+    parallax.current.y += (mouse.current.x * 0.087 - parallax.current.y) * 0.05
+    pointsRef.current.rotation.x += parallax.current.x * delta
+    pointsRef.current.rotation.y += parallax.current.y * delta
     if (linesRef.current) {
       linesRef.current.rotation.copy(pointsRef.current.rotation)
     }
@@ -61,8 +65,8 @@ export function ParticleField() {
   const linePositions = useMemo(() => {
     const pts: number[] = []
     const pos = positions
-    for (let i = 0; i < PARTICLE_COUNT; i++) {
-      for (let j = i + 1; j < PARTICLE_COUNT; j++) {
+    for (let i = 0; i < LINE_PARTICLE_LIMIT; i++) {
+      for (let j = i + 1; j < LINE_PARTICLE_LIMIT; j++) {
         const dx = pos[i*3] - pos[j*3]
         const dy = pos[i*3+1] - pos[j*3+1]
         const dz = pos[i*3+2] - pos[j*3+2]
