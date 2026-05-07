@@ -1,4 +1,8 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
+const nextConfig = {
+  output: 'export',
+  images: { unoptimized: true },
+  transpilePackages: ['three'],
+}
 
-export default nextConfig;
+export default nextConfig
