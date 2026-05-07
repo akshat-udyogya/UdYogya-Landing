@@ -16,6 +16,7 @@ const config: Config = {
     '\\.(css|scss|sass)$': '<rootDir>/__mocks__/fileMock.ts',
     '\\.(png|jpg|svg|gif)$': '<rootDir>/__mocks__/fileMock.ts',
     '^@react-three/fiber$': '<rootDir>/__mocks__/react-three-fiber.ts',
+    '^@react-three/drei$': '<rootDir>/__mocks__/react-three-drei.ts',
   },
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
 }

@@ -1,6 +1,23 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 
+jest.mock('framer-motion', () => {
+  const strip = (props: Record<string, unknown>) => {
+    const { initial, animate, whileInView, viewport, transition, ...rest } = props
+    void initial; void animate; void whileInView; void viewport; void transition
+    return rest
+  }
+  return {
+    motion: {
+      div:  ({ children, ...rest }: React.HTMLAttributes<HTMLDivElement> & Record<string, unknown>) =>
+        <div {...strip(rest as Record<string, unknown>)}>{children}</div>,
+      p:    ({ children, ...rest }: React.HTMLAttributes<HTMLParagraphElement> & Record<string, unknown>) =>
+        <p {...strip(rest as Record<string, unknown>)}>{children}</p>,
+    },
+    AnimatePresence: ({ children }: { children: React.ReactNode }) => <>{children}</>,
+  }
+})
+
 // Mock GSAP — not available in jsdom
 jest.mock('gsap', () => {
   const mock = {
@@ -31,5 +48,10 @@ describe('ProblemStatement', () => {
   it('renders ❌ emoji for each pain point', () => {
     render(<ProblemStatement />)
     expect(screen.getAllByText('❌')).toHaveLength(4)
+  })
+
+  it('renders a section heading h2', () => {
+    render(<ProblemStatement />)
+    expect(screen.getByRole('heading', { level: 2 })).toBeInTheDocument()
   })
 })

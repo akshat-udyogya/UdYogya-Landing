@@ -45,4 +45,9 @@ describe('Hero', () => {
     render(<Hero />)
     expect(screen.getByAltText('Udyogya')).toBeInTheDocument()
   })
+
+  it('nav has aria-label for accessibility', () => {
+    render(<Hero />)
+    expect(screen.getByRole('navigation', { name: /main navigation/i })).toBeInTheDocument()
+  })
 })

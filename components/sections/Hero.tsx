@@ -31,6 +31,7 @@ export default function Hero() {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3, duration: 0.5 }}
+        aria-label="Main navigation"
         className="relative z-10 flex items-center justify-between px-8 pt-6"
       >
         <Image src="/assets/logo.png" alt="Udyogya" width={140} height={40} priority />

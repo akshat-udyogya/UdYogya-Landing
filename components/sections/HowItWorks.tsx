@@ -18,7 +18,7 @@ export default function HowItWorks() {
 
         <div className="mt-16 flex flex-col md:flex-row items-center justify-center gap-0">
           {COPY.howItWorks.map((item, i) => (
-            <React.Fragment key={i}>
+            <React.Fragment key={item.step}>
               <motion.div
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}

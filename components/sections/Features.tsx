@@ -29,12 +29,12 @@ export default function Features() {
 
           {/* Feature cards — right column */}
           <div className="w-full md:w-1/2 space-y-8">
-            {FEATURES.map((feat, i) => (
+            {FEATURES.map((feat) => (
               <motion.div
-                key={i}
+                key={feat.title}
                 initial={{ opacity: 0, x: 40 }}
                 whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: false, margin: '-30%' }}
+                viewport={{ once: false, amount: 0.5 }}
                 onViewportEnter={() => setActiveScreen(feat.screen)}
                 transition={{ duration: 0.5, ease: 'easeOut' }}
                 className="p-6 rounded-2xl border border-white/10 bg-surface hover:border-primary/40 transition-colors"

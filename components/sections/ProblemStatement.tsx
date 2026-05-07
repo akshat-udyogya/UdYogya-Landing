@@ -3,16 +3,18 @@ import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { COPY } from '@/lib/constants'
+import { SectionHeading } from '@/components/ui/SectionHeading'
 
 gsap.registerPlugin(ScrollTrigger)
 
 export default function ProblemStatement() {
-  const sectionRef    = useRef<HTMLElement>(null!)
+  const sectionRef    = useRef<HTMLElement | null>(null)
   const itemsRef      = useRef<(HTMLDivElement | null)[]>([])
-  const dividerRef    = useRef<HTMLDivElement>(null!)
-  const resolutionRef = useRef<HTMLParagraphElement>(null!)
+  const dividerRef    = useRef<HTMLDivElement | null>(null)
+  const resolutionRef = useRef<HTMLParagraphElement | null>(null)
 
   useEffect(() => {
+    if (!sectionRef.current || !dividerRef.current || !resolutionRef.current) return
     const ctx = gsap.context(() => {
       // Pain points stagger in from left
       gsap.from(itemsRef.current.filter(Boolean), {
@@ -61,6 +63,12 @@ export default function ProblemStatement() {
   return (
     <section ref={sectionRef} id="problem" className="bg-surface py-24 px-8 md:px-16">
       <div className="max-w-3xl mx-auto">
+        <div className="mb-12">
+          <SectionHeading
+            heading="The Problem"
+            sub="Four reasons professionals struggle to get expert advice today"
+          />
+        </div>
         <div className="space-y-6 mb-12">
           {COPY.problem.pains.map((pain, i) => (
             <div
