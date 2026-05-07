@@ -23,10 +23,24 @@ export function PhoneMockup({
 
   useEffect(() => {
     const loader = new THREE.TextureLoader()
+    let cancelled = false
+
     loader.load(screenSrc, (t) => {
+      if (cancelled) {
+        t.dispose()
+        return
+      }
       t.colorSpace = THREE.SRGBColorSpace
       setTexture(t)
     })
+
+    return () => {
+      cancelled = true
+      setTexture(prev => {
+        prev?.dispose()
+        return null
+      })
+    }
   }, [screenSrc])
 
   useFrame((_, delta) => {
@@ -67,7 +81,7 @@ export function PhoneMockup({
         {glowHalo && (
           <mesh position={[0, 0, -0.2]}>
             <circleGeometry args={[1.4, 64] as [number, number]} />
-            <meshBasicMaterial color="#1A73E8" transparent opacity={0.12} side={THREE.BackSide} />
+            <meshBasicMaterial color="#1A73E8" transparent opacity={0.15} side={THREE.DoubleSide} />
           </mesh>
         )}
       </group>
