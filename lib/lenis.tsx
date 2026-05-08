@@ -13,7 +13,7 @@ export function LenisProvider({ children }: { children: ReactNode }) {
   const lenisRef = useRef<Lenis | null>(null)
 
   useEffect(() => {
-    const lenis = new Lenis({ lerp: 0.08, smoothWheel: true })
+    const lenis = new Lenis({ lerp: 0.12, smoothWheel: true, wheelMultiplier: 1.4 })
     lenisRef.current = lenis
 
     lenis.on('scroll', ScrollTrigger.update)
