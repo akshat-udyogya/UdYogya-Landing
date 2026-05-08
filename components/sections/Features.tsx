@@ -37,15 +37,15 @@ export default function Features() {
                 viewport={{ once: false, amount: 0.5 }}
                 onViewportEnter={() => setActiveColor(feat.color)}
                 transition={{ duration: 0.5, ease: 'easeOut' }}
-                className="p-6 rounded-2xl border border-white/10 bg-surface hover:border-primary/40 transition-colors"
+                className="p-8 rounded-[20px] border border-[rgba(255,255,255,0.12)] bg-[#16181a] hover:border-[#494fdf]/50 transition-colors"
               >
                 <div className="flex items-start gap-4">
                   <span className="text-4xl flex-shrink-0">{feat.icon}</span>
                   <div>
-                    <h3 className="font-display font-bold text-white text-xl mb-2">
+                    <h3 className="font-display font-medium text-white text-xl mb-2 display-md-tight">
                       {feat.title}
                     </h3>
-                    <p className="text-muted leading-relaxed">{feat.body}</p>
+                    <p className="text-[rgba(255,255,255,0.72)] leading-relaxed tracking-[0.015em]">{feat.body}</p>
                   </div>
                 </div>
               </motion.div>

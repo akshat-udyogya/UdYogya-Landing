@@ -37,7 +37,7 @@ function ExpertCard({ expert }: { expert: Expert }) {
       ref={cardRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className="flex-shrink-0 w-64 p-6 rounded-2xl bg-background border border-white/10 transition-transform duration-200 ease-out cursor-default"
+      className="flex-shrink-0 w-64 p-6 rounded-[20px] bg-[#0a0a0a] border border-[rgba(255,255,255,0.12)] transition-transform duration-200 ease-out cursor-default"
     >
       {/* Gradient avatar */}
       <div
@@ -52,11 +52,11 @@ function ExpertCard({ expert }: { expert: Expert }) {
 
       <h3 className="font-display font-bold text-white text-lg">{expert.name}</h3>
 
-      <span className="inline-block mt-1 mb-3 px-3 py-1 rounded-full bg-primary/20 text-primary text-xs font-medium">
+      <span className="inline-block mt-1 mb-3 px-3 py-1 rounded-full bg-[#494fdf]/20 text-[#4f55f1] text-xs font-semibold tracking-[0.015em]">
         {expert.role}
       </span>
 
-      <div className="flex items-center gap-2 text-sm text-muted">
+      <div className="flex items-center gap-2 text-sm text-[rgba(255,255,255,0.72)]">
         <span className="text-yellow-400" aria-hidden="true">★</span>
         <span className="text-white font-semibold">{expert.rating}</span>
         <span>· {expert.consultations} consultations</span>
@@ -80,7 +80,7 @@ export default function ExpertSpotlight() {
   }
 
   return (
-    <section className="bg-surface py-24 overflow-hidden">
+    <section className="bg-[#16181a] py-24 overflow-hidden">
       <div className="px-8 md:px-16 mb-12">
         <SectionHeading
           heading="Meet the Experts Behind the Answers"

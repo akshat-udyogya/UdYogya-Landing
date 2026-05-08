@@ -2,10 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Custom scrollbar */
+/* Custom scrollbar — Revolut cobalt on true black */
 ::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: #050A18; }
-::-webkit-scrollbar-thumb { background: #1A73E8; border-radius: 3px; }
+::-webkit-scrollbar-track { background: #000000; }
+::-webkit-scrollbar-thumb { background: #494fdf; border-radius: 3px; }
 
 /* Reduced motion: freeze all animations */
 @media (prefers-reduced-motion: reduce) {
@@ -16,5 +16,15 @@
   }
 }
 
-/* Selection colour */
-::selection { background: rgba(26,115,232,0.3); color: #fff; }
+/* Selection colour — Revolut cobalt */
+::selection { background: rgba(73,79,223,0.35); color: #fff; }
+
+/* Display type helpers — tight stacking at large sizes */
+.display-tight {
+  line-height: 1.0;
+  letter-spacing: -0.02em;
+}
+.display-md-tight {
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}

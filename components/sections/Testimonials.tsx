@@ -6,14 +6,14 @@ type Testimonial = typeof TESTIMONIALS[number]
 function TestimonialCard({ quote, name, role, city }: Testimonial) {
   return (
     <div
-      className="flex-shrink-0 w-72 p-6 rounded-2xl bg-surface border border-white/10"
-      style={{ boxShadow: '0 0 20px rgba(26,115,232,0.15)' }}
+      className="flex-shrink-0 w-72 p-6 rounded-[20px] bg-[#16181a] border border-[rgba(255,255,255,0.12)]"
+      style={{ boxShadow: '0 4px 24px rgba(73,79,223,0.12)' }}
     >
       <div className="text-yellow-400 text-sm mb-3">★★★★★</div>
-      <p className="text-white/80 text-sm leading-relaxed mb-4">"{quote}"</p>
+      <p className="text-[rgba(255,255,255,0.72)] text-sm leading-relaxed tracking-[0.015em] mb-4">"{quote}"</p>
       <div>
         <p className="text-white font-semibold text-sm">{name}</p>
-        <p className="text-muted text-xs">
+        <p className="text-[rgba(255,255,255,0.5)] text-xs tracking-[0.015em]">
           {role} · {city}
         </p>
       </div>

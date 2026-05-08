@@ -35,13 +35,13 @@ export default function Hero() {
         className="relative z-10 flex items-center justify-between px-8 pt-6"
       >
         <Image src="/assets/logo.png" alt="Udyogya" width={140} height={40} priority />
-        <div className="hidden md:flex items-center gap-8 text-muted font-medium text-sm">
+        <div className="hidden md:flex items-center gap-8 text-[rgba(255,255,255,0.72)] font-medium text-sm tracking-[0.015em]">
           <a href="#features"     className="hover:text-white transition-colors">Features</a>
           <a href="#how-it-works" className="hover:text-white transition-colors">How It Works</a>
           <Button
             href={PLAY_STORE_URL}
-            variant="ghost"
-            className="text-sm px-5 py-2"
+            variant="primary"
+            className="text-sm"
             ariaLabel="Get the Udyogya app on Google Play"
           >
             Download
@@ -52,7 +52,7 @@ export default function Hero() {
       {/* Hero content */}
       <div className="relative z-10 flex-1 flex items-center">
         <div className="px-8 md:px-16 max-w-2xl">
-          <h1 className="font-display font-extrabold text-5xl md:text-7xl leading-tight text-white mb-6">
+          <h1 className="font-display font-medium text-5xl md:text-7xl text-white mb-6 display-tight">
             {/* Screen-reader accessible full text */}
             <span className="sr-only">{COPY.hero.headline}</span>
             {/* Visually animated word-by-word spans */}
@@ -75,7 +75,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.2, duration: 0.5 }}
-            className="text-muted text-lg md:text-xl mb-10 leading-relaxed"
+            className="text-[rgba(255,255,255,0.72)] text-lg md:text-xl mb-10 leading-relaxed tracking-[0.015em]"
           >
             {COPY.hero.sub}
           </motion.p>

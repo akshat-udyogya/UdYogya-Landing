@@ -61,7 +61,7 @@ export default function ProblemStatement() {
   }, [])
 
   return (
-    <section ref={sectionRef} id="problem" className="bg-surface py-24 px-8 md:px-16">
+    <section ref={sectionRef} id="problem" className="bg-background py-24 px-8 md:px-16">
       <div className="max-w-3xl mx-auto">
         <div className="mb-12">
           <SectionHeading
@@ -77,7 +77,7 @@ export default function ProblemStatement() {
               className="flex items-start gap-4"
             >
               <span className="text-3xl mt-1 flex-shrink-0">❌</span>
-              <p className="text-white/80 text-xl md:text-2xl font-medium leading-snug">
+              <p className="text-[rgba(255,255,255,0.72)] text-xl md:text-2xl font-medium leading-snug">
                 "{pain}"
               </p>
             </div>
@@ -87,7 +87,7 @@ export default function ProblemStatement() {
         <div
           ref={dividerRef}
           className="h-px mb-10"
-          style={{ background: 'linear-gradient(90deg, #1A73E8 0%, #FF6B35 100%)' }}
+          style={{ background: 'linear-gradient(90deg, #494fdf 0%, #4f55f1 100%)' }}
         />
 
         <p

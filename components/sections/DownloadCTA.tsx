@@ -25,7 +25,7 @@ export default function DownloadCTA() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
-        className="font-display font-extrabold text-4xl md:text-6xl text-white mb-6"
+        className="font-display font-medium text-4xl md:text-6xl text-white mb-6 display-tight"
       >
         {COPY.cta.headline}
       </motion.h2>
@@ -35,7 +35,7 @@ export default function DownloadCTA() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ delay: 0.2, duration: 0.6 }}
-        className="text-muted text-lg md:text-xl max-w-xl mb-10"
+        className="text-[rgba(255,255,255,0.72)] text-lg md:text-xl max-w-xl mb-10 tracking-[0.015em]"
       >
         {COPY.cta.sub}
       </motion.p>
@@ -49,10 +49,10 @@ export default function DownloadCTA() {
         <PlayStoreBadge size="lg" />
       </motion.div>
 
-      <p className="mt-6 text-muted/60 text-sm">{COPY.cta.fine}</p>
+      <p className="mt-6 text-[rgba(255,255,255,0.45)] text-sm tracking-[0.015em]">{COPY.cta.fine}</p>
 
       {/* Footer */}
-      <div className="mt-24 pt-8 border-t border-white/10 w-full max-w-4xl flex flex-col md:flex-row items-center justify-between gap-4 text-muted/50 text-sm">
+      <div className="mt-24 pt-8 border-t border-[rgba(255,255,255,0.12)] w-full max-w-4xl flex flex-col md:flex-row items-center justify-between gap-4 text-[rgba(255,255,255,0.5)] text-sm tracking-[0.015em]">
         <p>© 2026 Anarpakaya. All rights reserved.</p>
         <p>Udyogya — India&apos;s Expert Network</p>
       </div>

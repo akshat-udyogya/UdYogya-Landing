@@ -5,7 +5,7 @@ export default function Stats() {
   return (
     <section
       className="py-24 px-8 md:px-16"
-      style={{ background: 'linear-gradient(135deg, #1A73E8 0%, #FF6B35 100%)' }}
+      style={{ background: '#494fdf' }}
       aria-label="Udyogya statistics"
     >
       <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-12">

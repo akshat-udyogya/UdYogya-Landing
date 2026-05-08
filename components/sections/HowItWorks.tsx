@@ -8,7 +8,7 @@ const STEP_ICONS = ['🔍', '💬', '✅']
 
 export default function HowItWorks() {
   return (
-    <section id="how-it-works" className="bg-surfaceLight py-24 px-8 md:px-16">
+    <section id="how-it-works" className="bg-[#f4f4f4] py-24 px-8 md:px-16">
       <div className="max-w-5xl mx-auto">
         <SectionHeading
           heading="How It Works"
@@ -30,8 +30,8 @@ export default function HowItWorks() {
                 <div
                   className="w-16 h-16 rounded-full flex items-center justify-center text-white font-display font-bold text-2xl mb-4"
                   style={{
-                    background: 'linear-gradient(135deg, #1A73E8 0%, #0D47A1 100%)',
-                    boxShadow: '0 0 20px rgba(26,115,232,0.4)',
+                    background: '#494fdf',
+                    boxShadow: '0 4px 20px rgba(73,79,223,0.35)',
                   }}
                 >
                   {item.step}
@@ -40,13 +40,13 @@ export default function HowItWorks() {
                 {/* Icon */}
                 <div className="text-4xl mb-4">{STEP_ICONS[i]}</div>
 
-                <h3 className="font-display font-bold text-xl text-surface mb-3">{item.title}</h3>
-                <p className="text-gray-600 text-base leading-relaxed">{item.desc}</p>
+                <h3 className="font-display font-medium text-xl text-ink mb-3 display-md-tight">{item.title}</h3>
+                <p className="text-[#505a63] text-base leading-relaxed">{item.desc}</p>
               </motion.div>
 
               {/* Connector arrow between steps */}
               {i < 2 && (
-                <div className="hidden md:flex items-center text-primary text-3xl px-2 flex-shrink-0" aria-hidden="true">
+                <div className="hidden md:flex items-center text-[#494fdf] text-3xl px-2 flex-shrink-0" aria-hidden="true">
                   →
                 </div>
               )}
