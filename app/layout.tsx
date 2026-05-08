@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 import { Inter, Poppins } from 'next/font/google'
-import { LenisProvider } from '@/lib/lenis'
 import './globals.css'
 
 const inter = Inter({
@@ -34,9 +33,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${inter.variable} ${poppins.variable}`}>
       <body className="bg-background text-white antialiased overflow-x-hidden">
-        <LenisProvider>
-          {children}
-        </LenisProvider>
+        {children}
       </body>
     </html>
   )
