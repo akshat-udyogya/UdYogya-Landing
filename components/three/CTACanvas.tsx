@@ -10,7 +10,7 @@ export default function CTACanvas() {
       <pointLight position={[3, 3, 3]} intensity={1.5} />
       <Suspense fallback={null}>
         <PhoneMockup
-          screenColor="#1A73E8"
+          screenColor="#494fdf"
           scale={1.8}
           glowHalo
         />

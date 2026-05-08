@@ -3,11 +3,11 @@ import { useRef, useMemo, useEffect } from 'react'
 import { useFrame, useThree } from '@react-three/fiber'
 import * as THREE from 'three'
 
-const PARTICLE_COUNT = 3000
-const LINE_PARTICLE_LIMIT = 600
-const PROXIMITY = 0.8
-const BLUE   = new THREE.Color('#1A73E8')
-const ORANGE = new THREE.Color('#FF6B35')
+const PARTICLE_COUNT = 2200
+const LINE_PARTICLE_LIMIT = 500
+const PROXIMITY = 0.75
+const COBALT = new THREE.Color('#494fdf')
+const WHITE  = new THREE.Color('#c8c8f0') // off-white with slight cobalt tint
 
 export function ParticleField() {
   const pointsRef = useRef<THREE.Points>(null!)
@@ -29,7 +29,7 @@ export function ParticleField() {
   const colours = useMemo(() => {
     const arr = new Float32Array(PARTICLE_COUNT * 3)
     for (let i = 0; i < PARTICLE_COUNT; i++) {
-      const c = Math.random() > 0.3 ? BLUE : ORANGE
+      const c = Math.random() > 0.35 ? COBALT : WHITE
       arr[i * 3]     = c.r
       arr[i * 3 + 1] = c.g
       arr[i * 3 + 2] = c.b
@@ -108,7 +108,7 @@ export function ParticleField() {
             args={[linePositions, 3]}
           />
         </bufferGeometry>
-        <lineBasicMaterial color="#1A73E8" transparent opacity={0.08} />
+        <lineBasicMaterial color="#494fdf" transparent opacity={0.06} />
       </lineSegments>
     </group>
   )

@@ -20,7 +20,7 @@ function createScreenTexture(color: string): THREE.CanvasTexture {
   // Gradient background: feature color → deep dark
   const bg = ctx.createLinearGradient(0, 0, 0, 400)
   bg.addColorStop(0, color)
-  bg.addColorStop(1, '#050A18')
+  bg.addColorStop(1, '#000000')
   ctx.fillStyle = bg
   ctx.fillRect(0, 0, 200, 400)
 
@@ -123,7 +123,7 @@ export function PhoneMockup({
         {glowHalo && (
           <mesh position={[0, 0, -0.2]}>
             <circleGeometry args={[1.4, 64]} />
-            <meshBasicMaterial color="#1A73E8" transparent opacity={0.12} side={THREE.DoubleSide} />
+            <meshBasicMaterial color="#494fdf" transparent opacity={0.14} side={THREE.DoubleSide} />
           </mesh>
         )}
       </group>
