@@ -16,41 +16,47 @@ export function PlayStoreBadge({ size = 'lg' }: PlayStoreBadgeProps) {
       aria-label="Download Udyogya on Google Play"
       className="inline-block"
     >
-      {/* Revolut download-tile style: white pill on dark canvas */}
       <div
         className={`${height} inline-flex items-center gap-3 bg-white text-black rounded-full px-6 py-2 hover:bg-[#f4f4f4] active:bg-[#e8e8e8] transition-colors`}
       >
         {/*
-          Google Play Store icon — 4 separate paths, each with its correct brand colour.
-          Combining them as a single fill-black path made them blend/disappear.
-          MDI 24x24 paths, official Google brand colours (red / yellow / green / blue).
+          Google Play icon — 5 paths that tile the full play-triangle shape.
+          The left "spine" (MDI path 1) is split at y=12 into a top-blue half
+          and a bottom-red half, matching the real Google Play logo exactly.
 
-          Path layout:
-            1. Left spine  → green  (#01875F) — the rounded left edge of the play arrow
-            2. Top triangle  → blue   (#4285F4) — upper-right triangle
-            3. Right tip     → red    (#EA4335) — the pointed arrow tip
-            4. Bottom triangle → yellow (#FBBC04) — lower-right triangle
+          Colors (matching the reference):
+            Top-left  → cyan-blue  #4FC3F7
+            Bot-left  → red        #F44336
+            Top-right → green      #43A047
+            Tip       → green      #43A047  (merged into one <path>)
+            Bot-right → yellow     #FBBC04
         */}
-        <svg viewBox="0 0 24 24" className="w-7 h-7 flex-shrink-0" fill="none" xmlns="http://www.w3.org/2000/svg">
-          {/* Left spine — green */}
+        <svg
+          viewBox="0 0 24 24"
+          className="w-7 h-7 flex-shrink-0"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          {/* Top-left spine — cyan/blue */}
           <path
-            fill="#01875F"
-            d="M3 20.5V3.5C3 2.91 3.34 2.39 3.84 2.15L13.69 12 3.84 21.85A1.5 1.5 0 0 1 3 20.5z"
+            fill="#4FC3F7"
+            d="M3 12V3.5C3 2.91 3.34 2.39 3.84 2.15L13.69 12H3z"
           />
-          {/* Top triangle — blue */}
+          {/* Bottom-left spine — red */}
           <path
-            fill="#4285F4"
-            d="M6.05 2.66 16.81 8.88 14.54 11.15 6.05 2.66z"
+            fill="#F44336"
+            d="M3 12h10.69L3.84 21.85C3.34 21.6 3 21.09 3 20.5V12z"
           />
-          {/* Right tip — red */}
+          {/* Top-right triangle + right tip — green (two sub-paths, one fill) */}
           <path
-            fill="#EA4335"
-            d="M20.16 10.81c.34.27.59.69.59 1.19s-.25.92-.59 1.19L17.89 14.5 15.39 12l2.5-2.5 2.27 1.31z"
+            fill="#43A047"
+            d="M6.05 2.66 16.81 8.88 14.54 11.15 6.05 2.66z
+               M20.16 10.81c.34.27.59.69.59 1.19s-.25.92-.59 1.19L17.89 14.5 15.39 12l2.5-2.5 2.27 1.31z"
           />
-          {/* Bottom triangle — yellow */}
+          {/* Bottom-right triangle — yellow */}
           <path
             fill="#FBBC04"
-            d="M16.81 15.12 6.05 21.34l8.49-8.49 2.27 2.27z"
+            d="M16.81 15.12 6.05 21.34 14.54 12.85 16.81 15.12z"
           />
         </svg>
 
