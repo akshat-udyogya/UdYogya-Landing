@@ -55,36 +55,42 @@ export const FEATURES = [
     title:  'Free Expert Chat — Forever',
     body:   'Message any expert directly. No tokens, no subscription, no hidden fees. Free for life.',
     screen: '/assets/screenshots/chat.png',
+    color:  '#1A73E8',
   },
   {
     icon:   '🤖',
     title:  'AI-Powered Ustaad Chatbot',
     body:   'Get instant answers from our AI before booking a human expert.',
     screen: '/assets/screenshots/ustaad.png',
+    color:  '#7B1FA2',
   },
   {
     icon:   '🎥',
     title:  'Live Video Consultations',
     body:   'Face-to-face advice from verified professionals, on demand.',
     screen: '/assets/screenshots/consultation.png',
+    color:  '#0D47A1',
   },
   {
     icon:   '🪪',
     title:  'Verified Expert Profiles',
     body:   'Every expert is reviewed and approved by our team before going live.',
     screen: '/assets/screenshots/expert.png',
+    color:  '#00695C',
   },
   {
     icon:   '💰',
     title:  'Secure In-App Wallet',
     body:   'Top up once, pay for consultations instantly. Refunds are automatic.',
     screen: '/assets/screenshots/wallet.png',
+    color:  '#E65100',
   },
   {
     icon:   '🧾',
     title:  'GST-Compliant Invoices',
     body:   'Every consultation generates a tax-ready invoice automatically — get reimbursed by your organisation with zero paperwork.',
     screen: '/assets/screenshots/invoice.png',
+    color:  '#2E7D32',
   },
 ]
 

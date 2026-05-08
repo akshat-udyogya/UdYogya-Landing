@@ -16,7 +16,7 @@ export default function HeroCanvas() {
       <Suspense fallback={null}>
         <ParticleField />
         <PhoneMockup
-          screenSrc="/assets/screenshots/chat.png"
+          screenColor="#1A73E8"
           scale={1.3}
           autoRotate
         />

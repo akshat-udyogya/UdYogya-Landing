@@ -11,7 +11,7 @@ const FeaturesCanvas = dynamic(
 )
 
 export default function Features() {
-  const [activeScreen, setActiveScreen] = useState(FEATURES[0].screen)
+  const [activeColor, setActiveColor] = useState(FEATURES[0].color)
 
   return (
     <section id="features" className="bg-background py-24 px-8 md:px-16">
@@ -24,7 +24,7 @@ export default function Features() {
         <div className="mt-16 flex flex-col md:flex-row gap-12 items-start">
           {/* Sticky phone — left column */}
           <div className="w-full md:w-1/2 md:sticky md:top-24 h-[420px]" aria-hidden="true">
-            <FeaturesCanvas screenSrc={activeScreen} />
+            <FeaturesCanvas screenColor={activeColor} />
           </div>
 
           {/* Feature cards — right column */}
@@ -35,7 +35,7 @@ export default function Features() {
                 initial={{ opacity: 0, x: 40 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: false, amount: 0.5 }}
-                onViewportEnter={() => setActiveScreen(feat.screen)}
+                onViewportEnter={() => setActiveColor(feat.color)}
                 transition={{ duration: 0.5, ease: 'easeOut' }}
                 className="p-6 rounded-2xl border border-white/10 bg-surface hover:border-primary/40 transition-colors"
               >
