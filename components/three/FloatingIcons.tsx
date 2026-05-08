@@ -178,10 +178,20 @@ function BriefcaseIcon() {
 
 // ─── Icon: Magnifying Glass (Search / Find Experts) ─────────────────────────
 function MagnifyingGlassIcon() {
+  // Rotation math: CylinderGeometry height is along local +Y.
+  // We want the handle to extend lower-right from the lens, i.e. the height
+  // axis should point in [0.707, -0.707, 0].
+  // Rz(θ) * [0,1,0] = [-sin(θ), cos(θ), 0]
+  // → -sin(θ) = 0.707 AND cos(θ) = -0.707  →  θ = -3π/4 (-135°)
+  const HANDLE_ROT = -3 * (Math.PI / 4) // = -135°
+
+  // Lens outer edge in the lower-right direction (at angle -45°):
+  //   [0.34 * cos(-45°), 0.34 * sin(-45°)] ≈ [0.240, -0.240]
+  // Handle center = lens edge + half-length along lower-right direction:
+  //   0.46/2 * [0.707, -0.707] ≈ [0.163, -0.163]  →  total ≈ [0.42, -0.42]
   return (
-    // Slight tilt so it reads as a magnifier even when rotating
-    <group rotation={[0, 0, -Math.PI / 6]}>
-      {/* Lens frame ring — torus in XY plane */}
+    <group>
+      {/* Lens frame ring — torus is already in the XY plane */}
       <mesh>
         <torusGeometry args={[0.27, 0.07, 10, 24]} />
         <meshStandardMaterial color={WHITE} metalness={0.5} roughness={0.2} />
@@ -196,8 +206,8 @@ function MagnifyingGlassIcon() {
           side={THREE.DoubleSide}
         />
       </mesh>
-      {/* Handle */}
-      <mesh position={[0.42, -0.42, 0]} rotation={[0, 0, -Math.PI / 4]}>
+      {/* Handle — starts at lens edge, extends toward lower-right */}
+      <mesh position={[0.42, -0.42, 0]} rotation={[0, 0, HANDLE_ROT]}>
         <cylinderGeometry args={[0.053, 0.063, 0.46, 10]} />
         <meshStandardMaterial color={WHITE} metalness={0.5} roughness={0.2} />
       </mesh>
