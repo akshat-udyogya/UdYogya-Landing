@@ -12,7 +12,7 @@ interface PhoneMockupProps {
   glowHalo?: boolean
 }
 
-/* ─── drawing utils ───────────────────────────────────── */
+/* ─── canvas helpers ──────────────────────────────────── */
 
 function rr(ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h: number, r: number) {
   ctx.beginPath()
@@ -32,541 +32,535 @@ function fillRR(ctx: CanvasRenderingContext2D, x: number, y: number, w: number, 
   rr(ctx, x, y, w, h, r); ctx.fill()
 }
 
-function strokeFillRR(ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h: number, r: number, fill: string, stroke: string, lw = 1) {
-  ctx.fillStyle = fill; rr(ctx, x, y, w, h, r); ctx.fill()
+function sfrr(
+  ctx: CanvasRenderingContext2D,
+  x: number, y: number, w: number, h: number, r: number,
+  fill: string, stroke: string, lw = 1
+) {
+  rr(ctx, x, y, w, h, r)
+  ctx.fillStyle = fill; ctx.fill()
   ctx.strokeStyle = stroke; ctx.lineWidth = lw; ctx.stroke()
 }
 
-// glowing circle behind an element
-function glow(ctx: CanvasRenderingContext2D, x: number, y: number, r: number, color: string, alpha = 0.35) {
-  const g = ctx.createRadialGradient(x, y, 0, x, y, r)
-  g.addColorStop(0, color.replace(')', `,${alpha})`).replace('rgb(', 'rgba('))
-  g.addColorStop(1, 'rgba(0,0,0,0)')
-  ctx.fillStyle = g
-  ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill()
-}
-
 function statusBar(ctx: CanvasRenderingContext2D) {
-  ctx.fillStyle = 'rgba(0,0,0,0.4)'
+  ctx.fillStyle = 'rgba(0,0,0,0.5)'
   ctx.fillRect(0, 0, 200, 22)
-  ctx.fillStyle = 'rgba(255,255,255,0.7)'
-  ctx.font = 'bold 8px ui-monospace,monospace'
+  ctx.fillStyle = '#ffffff'
+  ctx.font = 'bold 8px monospace'
   ctx.fillText('9:41', 8, 14)
-  ctx.fillStyle = 'rgba(255,255,255,0.45)'
-  ctx.font = '8px ui-monospace,monospace'
-  ctx.fillText('▂▄▆ ⊛', 152, 15)
+  ctx.fillStyle = 'rgba(255,255,255,0.6)'
+  ctx.font = '8px monospace'
+  ctx.fillText('▂▄▆  ⊛', 150, 15)
 }
 
 function homeBar(ctx: CanvasRenderingContext2D) {
-  ctx.fillStyle = 'rgba(255,255,255,0.28)'
+  ctx.fillStyle = 'rgba(255,255,255,0.4)'
   ctx.beginPath(); ctx.roundRect(70, 388, 60, 4, 2); ctx.fill()
 }
 
-/* ─── screen 0: free expert chat ─────────────────────── */
+/* ─── screen 0: chat ──────────────────────────────────── */
 function drawChat(ctx: CanvasRenderingContext2D, accent: string) {
-  // deep charcoal base
+  // Rich dark blue-black bg
   const bg = ctx.createLinearGradient(0, 0, 0, 400)
-  bg.addColorStop(0, '#0a0c10')
-  bg.addColorStop(1, '#060709')
+  bg.addColorStop(0, '#0f1623')
+  bg.addColorStop(1, '#080d14')
   ctx.fillStyle = bg; ctx.fillRect(0, 0, 200, 400)
-
-  // subtle grid
-  ctx.strokeStyle = 'rgba(255,255,255,0.03)'; ctx.lineWidth = 0.5
-  for (let y = 0; y < 400; y += 28) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(200,y); ctx.stroke() }
-
   statusBar(ctx)
 
-  // header glass
-  ctx.fillStyle = 'rgba(255,255,255,0.05)'
+  // Header
+  ctx.fillStyle = '#1a2235'
   ctx.fillRect(0, 22, 200, 50)
-  ctx.strokeStyle = 'rgba(255,255,255,0.08)'; ctx.lineWidth = 0.5
-  ctx.beginPath(); ctx.moveTo(0,72); ctx.lineTo(200,72); ctx.stroke()
+  ctx.strokeStyle = 'rgba(255,255,255,0.12)'; ctx.lineWidth = 0.8
+  ctx.beginPath(); ctx.moveTo(0, 72); ctx.lineTo(200, 72); ctx.stroke()
 
-  // avatar with glow
-  glow(ctx, 26, 47, 26, 'rgb(30,120,255)', 0.4)
-  const ag = ctx.createLinearGradient(12, 33, 40, 61)
-  ag.addColorStop(0, accent); ag.addColorStop(1, '#1a50cc')
-  ctx.fillStyle = ag; ctx.beginPath(); ctx.arc(26, 47, 14, 0, Math.PI*2); ctx.fill()
-  ctx.fillStyle = '#fff'; ctx.font = 'bold 9px sans-serif'; ctx.fillText('RK', 19, 51)
-  // online dot
-  ctx.fillStyle = '#22c55e'; ctx.beginPath(); ctx.arc(37, 57, 4, 0, Math.PI*2); ctx.fill()
-  ctx.fillStyle = 'rgba(34,197,94,0.35)'; ctx.beginPath(); ctx.arc(37, 57, 7, 0, Math.PI*2); ctx.fill()
+  // Avatar circle
+  ctx.fillStyle = accent
+  ctx.beginPath(); ctx.arc(26, 47, 15, 0, Math.PI * 2); ctx.fill()
+  ctx.fillStyle = '#ffffff'; ctx.font = 'bold 10px sans-serif'
+  ctx.fillText('RK', 18, 52)
+  // online ring
+  ctx.fillStyle = '#22c55e'; ctx.beginPath(); ctx.arc(38, 58, 4.5, 0, Math.PI * 2); ctx.fill()
+  ctx.strokeStyle = '#0f1623'; ctx.lineWidth = 1.5
+  ctx.beginPath(); ctx.arc(38, 58, 4.5, 0, Math.PI * 2); ctx.stroke()
 
-  ctx.fillStyle = '#fff'; ctx.font = 'bold 9.5px -apple-system,sans-serif'
+  ctx.fillStyle = '#ffffff'; ctx.font = 'bold 10px sans-serif'
   ctx.fillText('Rajesh Kumar', 46, 43)
-  ctx.fillStyle = 'rgba(255,255,255,0.38)'; ctx.font = '7px sans-serif'
-  ctx.fillText('PLC Engineer  ·  Online now', 46, 55)
+  ctx.fillStyle = '#94a3b8'; ctx.font = '7.5px sans-serif'
+  ctx.fillText('PLC Engineer  ·  Online', 46, 56)
 
-  // messages
-  // recv
-  ctx.fillStyle = 'rgba(255,255,255,0.07)'
-  fillRR(ctx, 10, 82, 130, 32, 12)
-  ctx.strokeStyle='rgba(255,255,255,0.1)'; ctx.lineWidth=0.6; rr(ctx,10,82,130,32,12); ctx.stroke()
-  ctx.fillStyle='rgba(255,255,255,0.82)'; ctx.font='7.5px sans-serif'
-  ctx.fillText('Hello! How can I help', 18, 94); ctx.fillText('with your PLC issue?', 18, 105)
+  // Received bubble
+  ctx.fillStyle = '#1e2d47'
+  fillRR(ctx, 10, 82, 132, 34, 14)
+  ctx.fillStyle = '#e2e8f0'; ctx.font = '7.5px sans-serif'
+  ctx.fillText('Hello! How can I help', 18, 95)
+  ctx.fillText('with your PLC issue?', 18, 107)
 
-  // sent
-  const sg = ctx.createLinearGradient(60,124,190,154)
-  sg.addColorStop(0, accent); sg.addColorStop(1,'#1a3ecc')
-  ctx.fillStyle = sg; fillRR(ctx, 60, 124, 130, 32, 12)
-  ctx.fillStyle='#fff'; ctx.font='7.5px sans-serif'
-  ctx.fillText('My Siemens S7 isn\'t', 68, 136); ctx.fillText('reading sensor inputs', 68, 148)
+  // Sent bubble (gradient)
+  const sg1 = ctx.createLinearGradient(58, 126, 190, 160)
+  sg1.addColorStop(0, accent); sg1.addColorStop(1, '#1d4ed8')
+  ctx.fillStyle = sg1; fillRR(ctx, 58, 126, 132, 34, 14)
+  ctx.fillStyle = '#ffffff'; ctx.font = '7.5px sans-serif'
+  ctx.fillText('My Siemens S7 isn\'t', 66, 139)
+  ctx.fillText('reading sensor inputs', 66, 151)
 
-  // recv long
-  ctx.fillStyle='rgba(255,255,255,0.07)'
-  fillRR(ctx,10,166,148,50,12)
-  ctx.strokeStyle='rgba(255,255,255,0.08)'; ctx.lineWidth=0.6; rr(ctx,10,166,148,50,12); ctx.stroke()
-  ctx.fillStyle='rgba(255,255,255,0.82)'; ctx.font='7px sans-serif'
-  ctx.fillText('Check DI 16×24V HF module.', 18, 179)
-  ctx.fillText('Look at terminals 1–8 for', 18, 190)
-  ctx.fillText('loose wiring on CH-3 🔧', 18, 201)
-  ctx.fillText('Fixed in 5 min ✔', 18, 212)
+  // Received long
+  ctx.fillStyle = '#1e2d47'; fillRR(ctx, 10, 170, 152, 52, 14)
+  ctx.fillStyle = '#e2e8f0'; ctx.font = '7px sans-serif'
+  ctx.fillText('Check DI 16×24V HF module.', 18, 183)
+  ctx.fillText('Look at terminals 1–8 for', 18, 194)
+  ctx.fillText('loose wiring on CH-3  🔧', 18, 205)
+  ctx.fillText('Fixed in under 5 min ✔', 18, 216)
 
-  // sent short
-  const sg2 = ctx.createLinearGradient(100,222,190,244)
-  sg2.addColorStop(0,accent); sg2.addColorStop(1,'#1a3ecc')
-  ctx.fillStyle=sg2; fillRR(ctx,100,222,90,22,10)
-  ctx.fillStyle='#fff'; ctx.font='7px sans-serif'; ctx.fillText('That was it! 🙏', 108, 237)
+  // Sent short
+  const sg2 = ctx.createLinearGradient(98, 230, 190, 252)
+  sg2.addColorStop(0, accent); sg2.addColorStop(1, '#1d4ed8')
+  ctx.fillStyle = sg2; fillRR(ctx, 98, 230, 92, 24, 12)
+  ctx.fillStyle = '#ffffff'; ctx.font = '7.5px sans-serif'
+  ctx.fillText('That fixed it! 🙏', 106, 246)
 
-  // recv free badge
-  ctx.fillStyle='rgba(255,255,255,0.07)'
-  fillRR(ctx,10,254,148,22,10)
-  ctx.strokeStyle='rgba(255,255,255,0.08)'; ctx.lineWidth=0.6; rr(ctx,10,254,148,22,10); ctx.stroke()
-  ctx.fillStyle='rgba(255,255,255,0.82)'; ctx.font='7px sans-serif'
-  ctx.fillText('Chat is always FREE 😊 No limit!', 18, 268)
+  // Received
+  ctx.fillStyle = '#1e2d47'; fillRR(ctx, 10, 264, 152, 24, 12)
+  ctx.fillStyle = '#e2e8f0'; ctx.font = '7px sans-serif'
+  ctx.fillText('Glad to help! Chat is FREE 😊', 18, 280)
 
-  // typing indicator
-  ctx.fillStyle='rgba(255,255,255,0.06)'; fillRR(ctx,10,286,48,22,12)
-  ctx.fillStyle=accent
-  for(const x of [22,31,40]){ctx.beginPath();ctx.arc(x,297,3.5,0,Math.PI*2);ctx.fill()}
+  // Typing dots
+  ctx.fillStyle = '#1e2d47'; fillRR(ctx, 10, 298, 52, 24, 12)
+  ctx.fillStyle = accent
+  for (const x of [24, 33, 42]) { ctx.beginPath(); ctx.arc(x, 310, 4, 0, Math.PI * 2); ctx.fill() }
 
-  // input bar glass
-  ctx.fillStyle='rgba(255,255,255,0.04)'; ctx.fillRect(0,318,200,52)
-  ctx.strokeStyle='rgba(255,255,255,0.07)'; ctx.lineWidth=0.5
-  ctx.beginPath(); ctx.moveTo(0,318); ctx.lineTo(200,318); ctx.stroke()
-  strokeFillRR(ctx,10,326,144,28,14,'rgba(255,255,255,0.06)','rgba(255,255,255,0.12)')
-  ctx.fillStyle='rgba(255,255,255,0.25)'; ctx.font='7.5px sans-serif'
-  ctx.fillText('Message (FREE)...', 22, 345)
+  // Input area
+  ctx.fillStyle = '#131c2b'; ctx.fillRect(0, 330, 200, 58)
+  ctx.strokeStyle = 'rgba(255,255,255,0.1)'; ctx.lineWidth = 0.6
+  ctx.beginPath(); ctx.moveTo(0, 330); ctx.lineTo(200, 330); ctx.stroke()
+  sfrr(ctx, 10, 338, 144, 32, 16, '#1e2d47', 'rgba(255,255,255,0.15)', 0.8)
+  ctx.fillStyle = '#64748b'; ctx.font = '8px sans-serif'
+  ctx.fillText('Message (FREE forever)...', 22, 358)
 
-  // send btn glow
-  glow(ctx,176,340,18,`rgb(${parseInt(accent.slice(1,3),16)},${parseInt(accent.slice(3,5),16)},${parseInt(accent.slice(5,7),16)})`,0.5)
-  const bg2=ctx.createLinearGradient(163,327,189,353)
-  bg2.addColorStop(0,accent); bg2.addColorStop(1,'#1a3ecc')
-  ctx.fillStyle=bg2; ctx.beginPath(); ctx.arc(176,340,13,0,Math.PI*2); ctx.fill()
-  ctx.fillStyle='#fff'; ctx.font='bold 11px sans-serif'; ctx.fillText('▶',170,345)
+  // Send button
+  const sbg = ctx.createLinearGradient(163, 338, 194, 370)
+  sbg.addColorStop(0, accent); sbg.addColorStop(1, '#1d4ed8')
+  ctx.fillStyle = sbg; ctx.beginPath(); ctx.arc(179, 354, 15, 0, Math.PI * 2); ctx.fill()
+  ctx.fillStyle = '#ffffff'; ctx.font = 'bold 12px sans-serif'; ctx.fillText('▶', 173, 359)
 
-  // free pill
-  ctx.fillStyle='rgba(34,197,94,0.15)'; fillRR(ctx,64,372,72,16,8)
-  ctx.strokeStyle='rgba(34,197,94,0.5)'; ctx.lineWidth=0.8; rr(ctx,64,372,72,16,8); ctx.stroke()
-  ctx.fillStyle='#4ade80'; ctx.font='bold 7px sans-serif'; ctx.fillText('💬 FREE FOREVER',70,383)
+  // FREE badge
+  ctx.fillStyle = 'rgba(34,197,94,0.2)'; fillRR(ctx, 62, 374, 76, 16, 8)
+  ctx.strokeStyle = '#22c55e'; ctx.lineWidth = 0.8; rr(ctx, 62, 374, 76, 16, 8); ctx.stroke()
+  ctx.fillStyle = '#4ade80'; ctx.font = 'bold 7px sans-serif'; ctx.fillText('💬 FREE FOREVER', 68, 385)
 
   homeBar(ctx)
 }
 
 /* ─── screen 1: ai ustaad ────────────────────────────── */
 function drawAI(ctx: CanvasRenderingContext2D, accent: string) {
-  const bg = ctx.createLinearGradient(0,0,200,400)
-  bg.addColorStop(0,'#07050f'); bg.addColorStop(1,'#0a0512')
-  ctx.fillStyle=bg; ctx.fillRect(0,0,200,400)
+  const bg = ctx.createLinearGradient(0, 0, 0, 400)
+  bg.addColorStop(0, '#0e0818'); bg.addColorStop(1, '#07050f')
+  ctx.fillStyle = bg; ctx.fillRect(0, 0, 200, 400)
 
-  // starfield
-  ctx.fillStyle='rgba(255,255,255,0.6)'
-  for(const [x,y,r] of [[20,35,1.2],[185,55,0.8],[45,115,1],[172,92,1.3],[100,28,0.7],[160,195,1.1],[38,245,0.9],[130,155,0.8],[80,198,1.2],[60,80,0.6]])
-    {ctx.beginPath();ctx.arc(x as number,y as number,r as number,0,Math.PI*2);ctx.fill()}
+  // Stars
+  ctx.fillStyle = 'rgba(255,255,255,0.7)'
+  for (const [x, y, r] of [[18,38,1.5],[185,55,1],[45,115,1.2],[172,92,1.5],[100,28,1],[160,195,1.3],[38,245,1],[130,155,1],[80,200,1.3]] as number[][]) {
+    ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill()
+  }
 
   statusBar(ctx)
 
-  // header
-  const hg=ctx.createLinearGradient(0,22,0,72)
-  hg.addColorStop(0,`${accent}60`); hg.addColorStop(1,'rgba(0,0,0,0)')
-  ctx.fillStyle=hg; ctx.fillRect(0,22,200,50)
+  // Header
+  const hg = ctx.createLinearGradient(0, 22, 0, 72)
+  hg.addColorStop(0, `${accent}80`); hg.addColorStop(1, 'rgba(0,0,0,0)')
+  ctx.fillStyle = hg; ctx.fillRect(0, 22, 200, 50)
 
-  // bot avatar with glow
-  glow(ctx,26,47,28,'rgb(147,51,234)',0.5)
-  const botG=ctx.createLinearGradient(12,33,40,61)
-  botG.addColorStop(0,accent); botG.addColorStop(1,'#5b21b6')
-  ctx.fillStyle=botG; ctx.beginPath(); ctx.arc(26,47,14,0,Math.PI*2); ctx.fill()
+  // Bot avatar
+  ctx.fillStyle = accent; ctx.beginPath(); ctx.arc(26, 47, 15, 0, Math.PI * 2); ctx.fill()
+  // glint ring
+  ctx.strokeStyle = 'rgba(255,255,255,0.4)'; ctx.lineWidth = 1
+  ctx.beginPath(); ctx.arc(26, 47, 15, 0, Math.PI * 2); ctx.stroke()
   // robot face
-  ctx.fillStyle='rgba(255,255,255,0.95)'
-  ctx.fillRect(19,40,5,5); ctx.fillRect(27,40,5,5); ctx.fillRect(20,49,12,3)
+  ctx.fillStyle = '#ffffff'
+  ctx.fillRect(19, 40, 5, 5); ctx.fillRect(27, 40, 5, 5)
+  ctx.fillRect(20, 49, 12, 3)
 
-  ctx.fillStyle='#fff'; ctx.font='bold 9.5px sans-serif'; ctx.fillText('Ustaad AI',46,43)
-  ctx.fillStyle='rgba(255,255,255,0.38)'; ctx.font='7px sans-serif'
-  ctx.fillText('AI Industrial Assistant',46,55)
-  // live indicator
-  ctx.fillStyle='#a855f7'; ctx.beginPath(); ctx.arc(176,37,4,0,Math.PI*2); ctx.fill()
-  ctx.fillStyle='rgba(168,85,247,0.3)'; ctx.beginPath(); ctx.arc(176,37,8,0,Math.PI*2); ctx.fill()
-  ctx.fillStyle='rgba(255,255,255,0.5)'; ctx.font='6px sans-serif'; ctx.fillText('AI',164,41)
+  ctx.fillStyle = '#ffffff'; ctx.font = 'bold 10px sans-serif'; ctx.fillText('Ustaad AI', 46, 43)
+  ctx.fillStyle = '#a78bfa'; ctx.font = '7.5px sans-serif'; ctx.fillText('AI Industrial Assistant', 46, 56)
+  // pulse dot
+  ctx.fillStyle = accent; ctx.beginPath(); ctx.arc(178, 37, 5, 0, Math.PI * 2); ctx.fill()
+  ctx.fillStyle = `${accent}44`; ctx.beginPath(); ctx.arc(178, 37, 10, 0, Math.PI * 2); ctx.fill()
 
   // AI bubble 1
-  const ab1=ctx.createLinearGradient(10,82,165,136)
-  ab1.addColorStop(0,`${accent}22`); ab1.addColorStop(1,'rgba(91,33,182,0.12)')
-  ctx.fillStyle=ab1; fillRR(ctx,10,82,155,55,14)
-  ctx.strokeStyle=`${accent}55`; ctx.lineWidth=0.8; rr(ctx,10,82,155,55,14); ctx.stroke()
-  ctx.fillStyle='rgba(255,255,255,0.88)'; ctx.font='7.5px sans-serif'
-  ctx.fillText('Hi! I\'m Ustaad 🤖 Ask me',18,96)
-  ctx.fillText('anything — PLC, hydraulics,',18,107)
-  ctx.fillText('VFDs, SCADA, GST — free,',18,118)
-  ctx.fillText('instant answers.',18,129)
+  sfrr(ctx, 10, 82, 158, 56, 14, '#1a0f2e', `${accent}60`, 0.8)
+  ctx.fillStyle = '#e2e8f0'; ctx.font = '7.5px sans-serif'
+  ctx.fillText('Hi! I\'m Ustaad 🤖 Ask me', 18, 96)
+  ctx.fillText('anything — PLC, hydraulics,', 18, 107)
+  ctx.fillText('VFDs, SCADA or GST. Free,', 18, 118)
+  ctx.fillText('instant expert answers.', 18, 129)
 
-  // user bubble
-  const ub=ctx.createLinearGradient(56,148,190,170)
-  ub.addColorStop(0,accent); ub.addColorStop(1,'#5b21b6')
-  ctx.fillStyle=ub; fillRR(ctx,56,148,134,24,10)
-  ctx.fillStyle='#fff'; ctx.font='7px sans-serif'
-  ctx.fillText('Motor tripping — VFD fault F001',62,163)
+  // User bubble
+  const ub = ctx.createLinearGradient(54, 148, 190, 174)
+  ub.addColorStop(0, accent); ub.addColorStop(1, '#5b21b6')
+  ctx.fillStyle = ub; fillRR(ctx, 54, 148, 136, 26, 12)
+  ctx.fillStyle = '#ffffff'; ctx.font = '7.5px sans-serif'
+  ctx.fillText('Motor tripping — VFD fault F001', 62, 165)
 
   // AI response
-  const ab2=ctx.createLinearGradient(10,182,172,258)
-  ab2.addColorStop(0,`${accent}22`); ab2.addColorStop(1,'rgba(91,33,182,0.12)')
-  ctx.fillStyle=ab2; fillRR(ctx,10,182,162,78,14)
-  ctx.strokeStyle=`${accent}55`; ctx.lineWidth=0.8; rr(ctx,10,182,162,78,14); ctx.stroke()
-  ctx.fillStyle='rgba(255,255,255,0.88)'; ctx.font='7px sans-serif'
-  ctx.fillText('F001 = Overcurrent fault.',18,196)
-  ctx.fillStyle=accent; ctx.font='bold 6.5px sans-serif'
-  ctx.fillText('① Check motor nameplate amps',18,208)
-  ctx.fillText('② Verify VFD current limit',18,219)
-  ctx.fillText('③ Inspect winding resistance',18,230)
-  ctx.fillText('④ Check mechanical load',18,241)
-  ctx.fillStyle='rgba(255,255,255,0.38)'; ctx.font='6px sans-serif'
-  ctx.fillText('Still stuck? Book a human expert →',18,253)
+  sfrr(ctx, 10, 184, 162, 80, 14, '#1a0f2e', `${accent}60`, 0.8)
+  ctx.fillStyle = '#e2e8f0'; ctx.font = '7.5px sans-serif'
+  ctx.fillText('F001 = Overcurrent fault.', 18, 198)
+  ctx.fillStyle = accent; ctx.font = 'bold 7px sans-serif'
+  ctx.fillText('① Check motor nameplate amps', 18, 211)
+  ctx.fillText('② Verify VFD current limit', 18, 222)
+  ctx.fillText('③ Inspect winding resistance', 18, 233)
+  ctx.fillText('④ Check mechanical coupling', 18, 244)
+  ctx.fillStyle = '#64748b'; ctx.font = '6.5px sans-serif'
+  ctx.fillText('Still stuck? Book a human expert →', 18, 257)
 
-  // thinking
-  ctx.fillStyle=`${accent}20`; fillRR(ctx,10,270,52,22,11)
-  ctx.strokeStyle=`${accent}44`; ctx.lineWidth=0.6; rr(ctx,10,270,52,22,11); ctx.stroke()
-  ctx.fillStyle=accent
-  for(const x of [23,32,41]){ctx.beginPath();ctx.arc(x,281,3.5,0,Math.PI*2);ctx.fill()}
+  // Thinking dots
+  sfrr(ctx, 10, 274, 54, 24, 12, '#1a0f2e', `${accent}44`, 0.6)
+  ctx.fillStyle = accent
+  for (const x of [24, 33, 42]) { ctx.beginPath(); ctx.arc(x, 286, 4, 0, Math.PI * 2); ctx.fill() }
 
-  // input
-  ctx.fillStyle='rgba(255,255,255,0.04)'; ctx.fillRect(0,306,200,54)
-  strokeFillRR(ctx,10,314,148,28,14,'rgba(255,255,255,0.06)','rgba(255,255,255,0.1)')
-  ctx.fillStyle='rgba(255,255,255,0.25)'; ctx.font='7.5px sans-serif'
-  ctx.fillText('Ask Ustaad anything...',22,332)
-  glow(ctx,176,328,18,'rgb(147,51,234)',0.55)
-  ctx.fillStyle=accent; ctx.beginPath(); ctx.arc(176,328,13,0,Math.PI*2); ctx.fill()
-  ctx.fillStyle='#fff'; ctx.font='bold 11px sans-serif'; ctx.fillText('▶',170,333)
+  // Input
+  ctx.fillStyle = '#0d0918'; ctx.fillRect(0, 308, 200, 56)
+  ctx.strokeStyle = 'rgba(255,255,255,0.08)'; ctx.lineWidth = 0.6
+  ctx.beginPath(); ctx.moveTo(0, 308); ctx.lineTo(200, 308); ctx.stroke()
+  sfrr(ctx, 10, 316, 148, 32, 16, '#1a0f2e', `${accent}50`, 0.8)
+  ctx.fillStyle = '#64748b'; ctx.font = '8px sans-serif'; ctx.fillText('Ask Ustaad anything...', 22, 336)
 
-  // badge
-  ctx.fillStyle=`${accent}18`; fillRR(ctx,46,352,108,16,8)
-  ctx.strokeStyle=`${accent}55`; ctx.lineWidth=0.7; rr(ctx,46,352,108,16,8); ctx.stroke()
-  ctx.fillStyle='rgba(255,255,255,0.65)'; ctx.font='bold 6.5px sans-serif'
-  ctx.fillText('⚡ Powered by Anthropic Claude',52,362)
+  const sbg = ctx.createLinearGradient(163, 316, 194, 348)
+  sbg.addColorStop(0, accent); sbg.addColorStop(1, '#5b21b6')
+  ctx.fillStyle = sbg; ctx.beginPath(); ctx.arc(179, 332, 15, 0, Math.PI * 2); ctx.fill()
+  ctx.fillStyle = '#fff'; ctx.font = 'bold 12px sans-serif'; ctx.fillText('▶', 173, 337)
+
+  // Badge
+  ctx.fillStyle = `${accent}25`; fillRR(ctx, 38, 354, 124, 18, 9)
+  ctx.strokeStyle = `${accent}70`; ctx.lineWidth = 0.8; rr(ctx, 38, 354, 124, 18, 9); ctx.stroke()
+  ctx.fillStyle = '#c4b5fd'; ctx.font = 'bold 7px sans-serif'
+  ctx.fillText('⚡ Powered by Anthropic Claude', 44, 366)
 
   homeBar(ctx)
 }
 
-/* ─── screen 2: video consultation ───────────────────── */
+/* ─── screen 2: video call ────────────────────────────── */
 function drawVideo(ctx: CanvasRenderingContext2D, accent: string) {
-  ctx.fillStyle='#060810'; ctx.fillRect(0,0,200,400)
+  ctx.fillStyle = '#080c18'; ctx.fillRect(0, 0, 200, 400)
   statusBar(ctx)
 
   // LIVE badge
-  ctx.fillStyle='rgba(239,68,68,0.15)'; fillRR(ctx,150,4,36,14,4)
-  ctx.strokeStyle='#ef4444'; ctx.lineWidth=0.8; rr(ctx,150,4,36,14,4); ctx.stroke()
-  ctx.fillStyle='#ef4444'; ctx.beginPath(); ctx.arc(157,11,3,0,Math.PI*2); ctx.fill()
-  ctx.fillStyle='rgba(239,68,68,0.3)'; ctx.beginPath(); ctx.arc(157,11,6,0,Math.PI*2); ctx.fill()
-  ctx.fillStyle='#ef4444'; ctx.font='bold 6.5px sans-serif'; ctx.fillText('LIVE',164,15)
+  ctx.fillStyle = '#ef4444'; fillRR(ctx, 150, 4, 38, 14, 4)
+  ctx.fillStyle = '#ffffff'; ctx.font = 'bold 7px sans-serif'
+  ctx.fillText('⬤ LIVE', 155, 14)
 
-  // video area bg
-  const vg=ctx.createLinearGradient(0,22,0,294)
-  vg.addColorStop(0,'#141830'); vg.addColorStop(1,'#07090f')
-  ctx.fillStyle=vg; ctx.fillRect(0,22,200,272)
+  // Video frame background
+  const vg = ctx.createLinearGradient(0, 22, 0, 292)
+  vg.addColorStop(0, '#1a2040'); vg.addColorStop(1, '#0a0c18')
+  ctx.fillStyle = vg; ctx.fillRect(0, 22, 200, 270)
 
-  // expert glow + avatar
-  glow(ctx,100,120,55,`rgb(${parseInt(accent.slice(1,3),16)},${parseInt(accent.slice(3,5),16)},${parseInt(accent.slice(5,7),16)})`,0.22)
-  ctx.fillStyle='rgba(255,255,255,0.07)'; ctx.beginPath(); ctx.arc(100,110,40,0,Math.PI*2); ctx.fill()
-  const avG=ctx.createLinearGradient(74,84,126,136)
-  avG.addColorStop(0,accent); avG.addColorStop(1,'#1a3ecc')
-  ctx.fillStyle=avG; ctx.beginPath(); ctx.arc(100,103,24,0,Math.PI*2); ctx.fill()
-  ctx.fillStyle='#fff'; ctx.font='bold 15px sans-serif'; ctx.fillText('RK',89,110)
-  ctx.fillStyle=accent
-  ctx.beginPath(); ctx.ellipse(100,140,30,16,0,Math.PI,0,true); ctx.fill()
+  // Expert avatar + glow
+  ctx.fillStyle = `${accent}30`; ctx.beginPath(); ctx.arc(100, 118, 50, 0, Math.PI * 2); ctx.fill()
+  ctx.fillStyle = `${accent}15`; ctx.beginPath(); ctx.arc(100, 118, 65, 0, Math.PI * 2); ctx.fill()
+  const avG = ctx.createLinearGradient(74, 90, 126, 140)
+  avG.addColorStop(0, accent); avG.addColorStop(1, '#1d4ed8')
+  ctx.fillStyle = avG; ctx.beginPath(); ctx.arc(100, 108, 28, 0, Math.PI * 2); ctx.fill()
+  ctx.fillStyle = '#ffffff'; ctx.font = 'bold 18px sans-serif'; ctx.fillText('RK', 88, 116)
+  ctx.fillStyle = avG
+  ctx.beginPath(); ctx.ellipse(100, 148, 34, 18, 0, Math.PI, 0, true); ctx.fill()
 
-  // vertical scan lines ambience
-  ctx.strokeStyle='rgba(255,255,255,0.015)'; ctx.lineWidth=1
-  for(let x=0;x<200;x+=8){ctx.beginPath();ctx.moveTo(x,22);ctx.lineTo(x,294);ctx.stroke()}
-
-  // name tag
-  const ntG=ctx.createLinearGradient(8,260,148,278)
-  ntG.addColorStop(0,'rgba(0,0,0,0.75)'); ntG.addColorStop(1,'rgba(0,0,0,0.55)')
-  ctx.fillStyle=ntG; fillRR(ctx,8,262,136,18,6)
-  ctx.strokeStyle='rgba(255,255,255,0.1)'; ctx.lineWidth=0.5; rr(ctx,8,262,136,18,6); ctx.stroke()
-  ctx.fillStyle='#fff'; ctx.font='bold 7px sans-serif'; ctx.fillText('Rajesh Kumar  —  PLC Engineer',14,274)
-  ctx.fillStyle='rgba(255,255,255,0.45)'; ctx.font='7px sans-serif'; ctx.fillText('32:14',164,274)
-
-  // PiP self-view
-  strokeFillRR(ctx,148,238,46,36,7,'#0f1428','rgba(255,255,255,0.22)',0.8)
-  ctx.fillStyle='rgba(255,255,255,0.07)'; ctx.beginPath(); ctx.arc(171,252,10,0,Math.PI*2); ctx.fill()
-  ctx.fillStyle='rgba(255,255,255,0.38)'; ctx.font='6.5px sans-serif'; ctx.fillText('You',165,268)
-
-  // control strip glass
-  const cg=ctx.createLinearGradient(0,294,0,366)
-  cg.addColorStop(0,'rgba(10,12,20,0.95)'); cg.addColorStop(1,'rgba(6,8,16,0.98)')
-  ctx.fillStyle=cg; ctx.fillRect(0,294,200,72)
-  ctx.strokeStyle='rgba(255,255,255,0.06)'; ctx.lineWidth=0.5
-  ctx.beginPath(); ctx.moveTo(0,294); ctx.lineTo(200,294); ctx.stroke()
-
-  for(const {x,icon,col,lbl} of [
-    {x:20,icon:'🎤',col:'rgba(255,255,255,0.1)',lbl:'Mute'},
-    {x:57,icon:'📷',col:'rgba(255,255,255,0.1)',lbl:'Camera'},
-    {x:100,icon:'⏹',col:'#dc2626',lbl:'End Call'},
-    {x:143,icon:'💬',col:'rgba(255,255,255,0.1)',lbl:'Chat'},
-    {x:180,icon:'⋯',col:'rgba(255,255,255,0.1)',lbl:'More'},
-  ]){
-    glow(ctx,x,317,18,x===100?'rgb(220,38,38)':'rgb(80,80,120)',0.28)
-    ctx.fillStyle=col; ctx.beginPath(); ctx.arc(x,317,17,0,Math.PI*2); ctx.fill()
-    ctx.font='11px sans-serif'; ctx.fillText(icon,x-7,321)
-    ctx.fillStyle='rgba(255,255,255,0.35)'; ctx.font='5.5px sans-serif'
-    ctx.fillText(lbl,x-lbl.length*1.8,340)
+  // Scan-line ambiance
+  ctx.strokeStyle = 'rgba(255,255,255,0.02)'; ctx.lineWidth = 1
+  for (let x = 0; x < 200; x += 10) {
+    ctx.beginPath(); ctx.moveTo(x, 22); ctx.lineTo(x, 292); ctx.stroke()
   }
 
-  // notes bar
-  ctx.fillStyle='rgba(255,255,255,0.04)'; ctx.fillRect(0,366,200,22)
-  ctx.strokeStyle='rgba(255,255,255,0.06)'; ctx.lineWidth=0.4
-  ctx.beginPath(); ctx.moveTo(0,366); ctx.lineTo(200,366); ctx.stroke()
-  ctx.fillStyle='rgba(255,255,255,0.22)'; ctx.font='7px sans-serif'
-  ctx.fillText('📝  Consultation notes...',10,380)
+  // Name tag
+  ctx.fillStyle = 'rgba(0,0,0,0.7)'; fillRR(ctx, 8, 266, 140, 20, 6)
+  ctx.strokeStyle = 'rgba(255,255,255,0.15)'; ctx.lineWidth = 0.6; rr(ctx, 8, 266, 140, 20, 6); ctx.stroke()
+  ctx.fillStyle = '#ffffff'; ctx.font = 'bold 7.5px sans-serif'
+  ctx.fillText('Rajesh Kumar — PLC Expert', 14, 279)
+  ctx.fillStyle = '#94a3b8'; ctx.font = '7px sans-serif'; ctx.fillText('32:14', 164, 279)
+
+  // PiP self-view
+  sfrr(ctx, 148, 240, 46, 36, 8, '#131c35', 'rgba(255,255,255,0.3)', 1)
+  ctx.fillStyle = 'rgba(255,255,255,0.1)'; ctx.beginPath(); ctx.arc(171, 254, 11, 0, Math.PI * 2); ctx.fill()
+  ctx.fillStyle = '#94a3b8'; ctx.font = '7px sans-serif'; ctx.fillText('You', 164, 270)
+
+  // Control bar
+  ctx.fillStyle = '#0d1225'; ctx.fillRect(0, 292, 200, 74)
+  ctx.strokeStyle = 'rgba(255,255,255,0.1)'; ctx.lineWidth = 0.6
+  ctx.beginPath(); ctx.moveTo(0, 292); ctx.lineTo(200, 292); ctx.stroke()
+
+  for (const { x, icon, col, lbl } of [
+    { x: 22,  icon: '🎤', col: '#1e2d47',  lbl: 'Mute'   },
+    { x: 60,  icon: '📷', col: '#1e2d47',  lbl: 'Camera' },
+    { x: 100, icon: '⏹', col: '#dc2626',  lbl: 'End'    },
+    { x: 140, icon: '💬', col: '#1e2d47',  lbl: 'Chat'   },
+    { x: 178, icon: '⋯',  col: '#1e2d47',  lbl: 'More'   },
+  ]) {
+    ctx.fillStyle = col; ctx.beginPath(); ctx.arc(x, 318, 18, 0, Math.PI * 2); ctx.fill()
+    ctx.strokeStyle = 'rgba(255,255,255,0.18)'; ctx.lineWidth = 0.8
+    ctx.beginPath(); ctx.arc(x, 318, 18, 0, Math.PI * 2); ctx.stroke()
+    ctx.font = '12px sans-serif'; ctx.fillText(icon, x - 7, 323)
+    ctx.fillStyle = '#94a3b8'; ctx.font = '6px sans-serif'
+    ctx.fillText(lbl, x - lbl.length * 1.9, 344)
+  }
+
+  // Notes strip
+  ctx.fillStyle = '#0a0e1c'; ctx.fillRect(0, 366, 200, 22)
+  ctx.strokeStyle = 'rgba(255,255,255,0.07)'; ctx.lineWidth = 0.4
+  ctx.beginPath(); ctx.moveTo(0, 366); ctx.lineTo(200, 366); ctx.stroke()
+  ctx.fillStyle = '#475569'; ctx.font = '7.5px sans-serif'
+  ctx.fillText('📝  Consultation notes...', 10, 380)
 
   homeBar(ctx)
 }
 
 /* ─── screen 3: expert profile ───────────────────────── */
 function drawProfile(ctx: CanvasRenderingContext2D, accent: string) {
-  ctx.fillStyle='#080b0f'; ctx.fillRect(0,0,200,400)
+  ctx.fillStyle = '#0c1018'; ctx.fillRect(0, 0, 200, 400)
   statusBar(ctx)
 
-  // hero gradient band
-  const hg=ctx.createLinearGradient(0,22,200,112)
-  hg.addColorStop(0,`${accent}cc`); hg.addColorStop(0.6,`${accent}44`); hg.addColorStop(1,'rgba(0,0,0,0)')
-  ctx.fillStyle=hg; ctx.fillRect(0,22,200,92)
+  // Hero gradient
+  const hg = ctx.createLinearGradient(0, 22, 200, 120)
+  hg.addColorStop(0, `${accent}dd`); hg.addColorStop(0.55, `${accent}55`); hg.addColorStop(1, 'rgba(0,0,0,0)')
+  ctx.fillStyle = hg; ctx.fillRect(0, 22, 200, 100)
 
-  // avatar glow + rings
-  glow(ctx,100,78,50,`rgb(${parseInt(accent.slice(1,3),16)},${parseInt(accent.slice(3,5),16)},${parseInt(accent.slice(5,7),16)})`,0.4)
-  ctx.fillStyle='rgba(255,255,255,0.12)'; ctx.beginPath(); ctx.arc(100,78,33,0,Math.PI*2); ctx.fill()
-  ctx.fillStyle='rgba(255,255,255,0.07)'; ctx.beginPath(); ctx.arc(100,78,40,0,Math.PI*2); ctx.fill()
-  const avG=ctx.createLinearGradient(76,54,124,102)
-  avG.addColorStop(0,'#e0e7ff'); avG.addColorStop(1,accent)
-  ctx.fillStyle=avG; ctx.beginPath(); ctx.arc(100,71,20,0,Math.PI*2); ctx.fill()
-  ctx.fillStyle='#1e1b4b'; ctx.font='bold 14px sans-serif'; ctx.fillText('PS',90,77)
-  ctx.fillStyle=accent; ctx.beginPath(); ctx.ellipse(100,98,24,14,0,Math.PI,0,true); ctx.fill()
+  // Avatar glow rings
+  ctx.fillStyle = `${accent}30`; ctx.beginPath(); ctx.arc(100, 80, 44, 0, Math.PI * 2); ctx.fill()
+  ctx.fillStyle = `${accent}15`; ctx.beginPath(); ctx.arc(100, 80, 54, 0, Math.PI * 2); ctx.fill()
+  // Avatar
+  const avG = ctx.createLinearGradient(76, 56, 124, 104)
+  avG.addColorStop(0, '#e0e7ff'); avG.addColorStop(1, accent)
+  ctx.fillStyle = avG; ctx.beginPath(); ctx.arc(100, 74, 22, 0, Math.PI * 2); ctx.fill()
+  ctx.fillStyle = '#1e1b4b'; ctx.font = 'bold 15px sans-serif'; ctx.fillText('PS', 89, 80)
+  ctx.fillStyle = avG; ctx.beginPath(); ctx.ellipse(100, 102, 26, 15, 0, Math.PI, 0, true); ctx.fill()
 
-  // verified badge
-  ctx.fillStyle='#22c55e'; ctx.beginPath(); ctx.arc(126,56,9,0,Math.PI*2); ctx.fill()
-  ctx.fillStyle='rgba(34,197,94,0.3)'; ctx.beginPath(); ctx.arc(126,56,13,0,Math.PI*2); ctx.fill()
-  ctx.fillStyle='#fff'; ctx.font='bold 9px sans-serif'; ctx.fillText('✓',121,60)
+  // Verified badge
+  ctx.fillStyle = '#22c55e'; ctx.beginPath(); ctx.arc(126, 58, 10, 0, Math.PI * 2); ctx.fill()
+  ctx.fillStyle = '#ffffff'; ctx.font = 'bold 9px sans-serif'; ctx.fillText('✓', 121, 62)
 
-  // name
-  ctx.fillStyle='#fff'; ctx.font='bold 12px -apple-system,sans-serif'; ctx.fillText('Priya Sharma',62,120)
-  ctx.fillStyle='rgba(255,255,255,0.42)'; ctx.font='7.5px sans-serif'; ctx.fillText('Tax & GST Consultant',66,131)
+  // Name + title
+  ctx.fillStyle = '#ffffff'; ctx.font = 'bold 13px sans-serif'; ctx.fillText('Priya Sharma', 60, 124)
+  ctx.fillStyle = '#94a3b8'; ctx.font = '7.5px sans-serif'; ctx.fillText('Tax & GST Consultant', 65, 136)
 
-  // stars
-  ctx.fillStyle='#fbbf24'; ctx.font='11px sans-serif'; ctx.fillText('★★★★★',50,148)
-  ctx.fillStyle='#fff'; ctx.font='bold 8.5px sans-serif'; ctx.fillText('4.9',99,148)
-  ctx.fillStyle='rgba(255,255,255,0.35)'; ctx.font='7px sans-serif'; ctx.fillText('(312 reviews)',113,148)
+  // Stars
+  ctx.fillStyle = '#fbbf24'; ctx.font = '12px sans-serif'; ctx.fillText('★★★★★', 48, 154)
+  ctx.fillStyle = '#ffffff'; ctx.font = 'bold 9px sans-serif'; ctx.fillText('4.9', 100, 154)
+  ctx.fillStyle = '#64748b'; ctx.font = '7px sans-serif'; ctx.fillText('(312 reviews)', 114, 154)
 
-  // stats glass row
-  for(const {v,l,x} of [{v:'548',l:'Sessions',x:10},{v:'<2 min',l:'Response',x:74},{v:'₹800/hr',l:'Rate',x:138}]){
-    strokeFillRR(ctx,x,156,58,34,8,'rgba(255,255,255,0.06)','rgba(255,255,255,0.1)',0.6)
-    ctx.fillStyle='#fff'; ctx.font='bold 8.5px sans-serif'; ctx.fillText(v,x+5,170)
-    ctx.fillStyle='rgba(255,255,255,0.38)'; ctx.font='6px sans-serif'; ctx.fillText(l,x+5,181)
+  // Stats row
+  for (const { v, l, x } of [
+    { v: '548',    l: 'Sessions',  x: 10  },
+    { v: '<2 min', l: 'Response',  x: 74  },
+    { v: '₹800/hr',l: 'Rate',     x: 138 },
+  ]) {
+    sfrr(ctx, x, 162, 58, 36, 8, '#1a2235', 'rgba(255,255,255,0.15)', 0.6)
+    ctx.fillStyle = '#ffffff'; ctx.font = 'bold 9px sans-serif'; ctx.fillText(v, x + 5, 177)
+    ctx.fillStyle = '#64748b'; ctx.font = '6px sans-serif'; ctx.fillText(l, x + 5, 189)
   }
 
-  // skill tags
-  ctx.fillStyle='rgba(255,255,255,0.65)'; ctx.font='bold 8px sans-serif'; ctx.fillText('Expertise',10,204)
-  let tx=10
-  for(const tag of ['GST Filing','Income Tax','TDS','ITR','Audit']){
-    const w=tag.length*5.4+14
-    if(tx+w>192){break}
-    ctx.fillStyle=`${accent}20`; fillRR(ctx,tx,210,w,17,9)
-    ctx.strokeStyle=accent; ctx.lineWidth=0.7; rr(ctx,tx,210,w,17,9); ctx.stroke()
-    ctx.fillStyle=accent; ctx.font='bold 6.5px sans-serif'
-    ctx.fillText(tag,tx+6,221); tx+=w+5
+  // Skill tags
+  ctx.fillStyle = '#cbd5e1'; ctx.font = 'bold 8px sans-serif'; ctx.fillText('Expertise', 10, 210)
+  let tx = 10
+  for (const tag of ['GST Filing', 'Income Tax', 'TDS', 'ITR', 'Audit']) {
+    const w = tag.length * 5.5 + 14
+    if (tx + w > 192) break
+    sfrr(ctx, tx, 216, w, 18, 9, `${accent}25`, accent, 0.8)
+    ctx.fillStyle = accent; ctx.font = 'bold 7px sans-serif'
+    ctx.fillText(tag, tx + 6, 228); tx += w + 6
   }
 
-  // bio
-  ctx.fillStyle='rgba(255,255,255,0.38)'; ctx.font='7px sans-serif'
-  ctx.fillText('CA with 12+ yrs in GST, direct &',10,241)
-  ctx.fillText('indirect tax for SMEs & startups.',10,251)
+  // Bio
+  ctx.fillStyle = '#64748b'; ctx.font = '7.5px sans-serif'
+  ctx.fillText('CA with 12+ yrs in GST, direct &', 10, 250)
+  ctx.fillText('indirect tax for SMEs & startups.', 10, 261)
 
-  // book CTA
-  glow(ctx,100,275,30,`rgb(${parseInt(accent.slice(1,3),16)},${parseInt(accent.slice(3,5),16)},${parseInt(accent.slice(5,7),16)})`,0.35)
-  const btnG=ctx.createLinearGradient(12,260,188,292)
-  btnG.addColorStop(0,accent); btnG.addColorStop(1,'#1a3ecc')
-  ctx.fillStyle=btnG; fillRR(ctx,12,260,176,32,11)
-  ctx.fillStyle='#fff'; ctx.font='bold 9px sans-serif'; ctx.fillText('📅  Book — ₹800/hr',44,280)
+  // Book CTA
+  const btnG = ctx.createLinearGradient(12, 272, 188, 304)
+  btnG.addColorStop(0, accent); btnG.addColorStop(1, '#1d4ed8')
+  ctx.fillStyle = btnG; fillRR(ctx, 12, 272, 176, 32, 12)
+  ctx.fillStyle = '#ffffff'; ctx.font = 'bold 9.5px sans-serif'
+  ctx.fillText('📅  Book — ₹800/hr', 48, 291)
 
-  // free chat outline
-  strokeFillRR(ctx,12,300,176,26,11,'rgba(255,255,255,0.05)','rgba(255,255,255,0.15)',0.8)
-  ctx.fillStyle='rgba(255,255,255,0.7)'; ctx.font='bold 8px sans-serif'; ctx.fillText('💬  Start Free Chat',58,317)
+  // Free chat outline btn
+  sfrr(ctx, 12, 312, 176, 28, 12, 'rgba(255,255,255,0.06)', 'rgba(255,255,255,0.2)', 0.8)
+  ctx.fillStyle = '#cbd5e1'; ctx.font = 'bold 8.5px sans-serif'
+  ctx.fillText('💬  Start Free Chat', 56, 330)
 
-  // bottom nav
-  ctx.fillStyle='rgba(255,255,255,0.04)'; ctx.fillRect(0,342,200,44)
-  ctx.strokeStyle='rgba(255,255,255,0.07)'; ctx.lineWidth=0.4
-  ctx.beginPath(); ctx.moveTo(0,342); ctx.lineTo(200,342); ctx.stroke()
-  let ni=0
-  for(const ic of ['🔍','💬','🏠','📋','👤']){ctx.font='14px sans-serif';ctx.fillText(ic,12+ni*38,370);ni++}
+  // Bottom nav
+  ctx.fillStyle = '#0f1623'; ctx.fillRect(0, 348, 200, 40)
+  ctx.strokeStyle = 'rgba(255,255,255,0.08)'; ctx.lineWidth = 0.5
+  ctx.beginPath(); ctx.moveTo(0, 348); ctx.lineTo(200, 348); ctx.stroke()
+  let ni = 0
+  for (const ic of ['🔍', '💬', '🏠', '📋', '👤']) {
+    ctx.font = '15px sans-serif'; ctx.fillText(ic, 10 + ni * 38, 374); ni++
+  }
 
   homeBar(ctx)
 }
 
 /* ─── screen 4: wallet ────────────────────────────────── */
 function drawWallet(ctx: CanvasRenderingContext2D, accent: string) {
-  ctx.fillStyle='#080808'; ctx.fillRect(0,0,200,400)
+  ctx.fillStyle = '#0a0808'; ctx.fillRect(0, 0, 200, 400)
   statusBar(ctx)
 
-  // balance card
-  glow(ctx,100,88,80,`rgb(${parseInt(accent.slice(1,3),16)},${parseInt(accent.slice(3,5),16)},${parseInt(accent.slice(5,7),16)})`,0.3)
-  const cg=ctx.createLinearGradient(10,30,190,142)
-  cg.addColorStop(0,accent); cg.addColorStop(0.5,'#c2410c'); cg.addColorStop(1,'#7c2d12')
-  ctx.fillStyle=cg; fillRR(ctx,10,30,180,112,16)
+  // Card glow
+  ctx.fillStyle = `${accent}28`; fillRR(ctx, 0, 22, 200, 130, 0)
 
-  // card gloss
-  const gloss=ctx.createLinearGradient(10,30,190,90)
-  gloss.addColorStop(0,'rgba(255,255,255,0.18)'); gloss.addColorStop(1,'rgba(255,255,255,0)')
-  ctx.fillStyle=gloss; fillRR(ctx,10,30,180,56,16)
+  // Balance card
+  const cg = ctx.createLinearGradient(10, 32, 190, 144)
+  cg.addColorStop(0, accent); cg.addColorStop(0.5, '#c2410c'); cg.addColorStop(1, '#7c2d12')
+  ctx.fillStyle = cg; fillRR(ctx, 10, 32, 180, 112, 18)
 
-  // chip
-  ctx.fillStyle='rgba(255,255,255,0.28)'; fillRR(ctx,148,82,28,20,3)
-  ctx.strokeStyle='rgba(255,255,255,0.45)'; ctx.lineWidth=0.6; rr(ctx,148,82,28,20,3); ctx.stroke()
-  ctx.fillStyle='rgba(255,255,255,0.45)'; ctx.fillRect(148,90,28,2); ctx.fillRect(157,82,2,20)
+  // Gloss overlay
+  const gloss = ctx.createLinearGradient(10, 32, 190, 88)
+  gloss.addColorStop(0, 'rgba(255,255,255,0.2)'); gloss.addColorStop(1, 'rgba(255,255,255,0)')
+  ctx.fillStyle = gloss; fillRR(ctx, 10, 32, 180, 56, 18)
 
-  // card text
-  ctx.fillStyle='rgba(255,255,255,0.62)'; ctx.font='7px sans-serif'; ctx.fillText('UDYOGYA WALLET',20,52)
-  ctx.fillStyle='#fff'; ctx.font='bold 26px -apple-system,sans-serif'; ctx.fillText('₹2,840',20,94)
-  ctx.fillStyle='rgba(255,255,255,0.55)'; ctx.font='7px sans-serif'; ctx.fillText('Available Balance',20,108)
-  ctx.fillStyle='#4ade80'; ctx.font='bold 7px sans-serif'; ctx.fillText('↑ +₹1,000 added today',20,122)
+  // Card border
+  ctx.strokeStyle = 'rgba(255,255,255,0.3)'; ctx.lineWidth = 0.8
+  rr(ctx, 10, 32, 180, 112, 18); ctx.stroke()
 
-  // action buttons
-  for(const {x,icon,lbl} of [
-    {x:28,icon:'⬆',lbl:'Add Money'},
-    {x:82,icon:'⬇',lbl:'Withdraw'},
-    {x:130,icon:'📜',lbl:'History'},
-    {x:175,icon:'🔁',lbl:'Transfer'},
-  ]){
-    ctx.fillStyle='rgba(255,255,255,0.08)'; ctx.beginPath(); ctx.arc(x,172,18,0,Math.PI*2); ctx.fill()
-    ctx.strokeStyle='rgba(255,255,255,0.12)'; ctx.lineWidth=0.6; ctx.beginPath(); ctx.arc(x,172,18,0,Math.PI*2); ctx.stroke()
-    ctx.font='13px sans-serif'; ctx.fillText(icon,x-7,177)
-    ctx.fillStyle='rgba(255,255,255,0.45)'; ctx.font='5.5px sans-serif'
-    ctx.fillText(lbl,x-lbl.length*1.8,194)
+  // Chip
+  ctx.fillStyle = 'rgba(255,255,255,0.3)'; fillRR(ctx, 148, 82, 28, 20, 4)
+  ctx.strokeStyle = 'rgba(255,255,255,0.5)'; ctx.lineWidth = 0.6; rr(ctx, 148, 82, 28, 20, 4); ctx.stroke()
+  ctx.fillStyle = 'rgba(255,255,255,0.5)'; ctx.fillRect(148, 91, 28, 2); ctx.fillRect(157, 82, 2, 20)
+
+  ctx.fillStyle = 'rgba(255,255,255,0.7)'; ctx.font = '7px sans-serif'; ctx.fillText('UDYOGYA WALLET', 20, 54)
+  ctx.fillStyle = '#ffffff'; ctx.font = 'bold 28px sans-serif'; ctx.fillText('₹2,840', 20, 96)
+  ctx.fillStyle = 'rgba(255,255,255,0.6)'; ctx.font = '7px sans-serif'; ctx.fillText('Available Balance', 20, 110)
+  ctx.fillStyle = '#4ade80'; ctx.font = 'bold 7.5px sans-serif'; ctx.fillText('↑ +₹1,000 added today', 20, 124)
+
+  // Action buttons
+  for (const { x, icon, lbl } of [
+    { x: 28,  icon: '⬆', lbl: 'Add Money' },
+    { x: 82,  icon: '⬇', lbl: 'Withdraw'  },
+    { x: 132, icon: '📜', lbl: 'History'   },
+    { x: 178, icon: '🔁', lbl: 'Transfer'  },
+  ]) {
+    sfrr(ctx, x - 20, 158, 40, 38, 10, '#1a1010', 'rgba(255,255,255,0.15)', 0.7)
+    ctx.font = '15px sans-serif'; ctx.fillText(icon, x - 8, 181)
+    ctx.fillStyle = '#94a3b8'; ctx.font = '6px sans-serif'
+    ctx.fillText(lbl, x - lbl.length * 1.9, 196)
   }
 
-  // txn header
-  ctx.fillStyle='rgba(255,255,255,0.82)'; ctx.font='bold 9px sans-serif'; ctx.fillText('Recent Transactions',10,218)
-  ctx.fillStyle=accent; ctx.font='7.5px sans-serif'; ctx.fillText('See all →',158,218)
+  // Section label
+  ctx.fillStyle = '#e2e8f0'; ctx.font = 'bold 9px sans-serif'; ctx.fillText('Recent Transactions', 10, 216)
+  ctx.fillStyle = accent; ctx.font = '8px sans-serif'; ctx.fillText('See all →', 156, 216)
 
-  // rows
-  for(const [icon,desc,sub,amt,pos] of [
-    ['📥','Wallet Top-up','Today','+₹1,000',true],
-    ['🎥','Consultation — Rajesh K.','Yesterday','-₹400',false],
-    ['📥','Wallet Top-up','May 20','+₹500',true],
-    ['🎥','Consultation — Priya S.','May 18','-₹260',false],
-  ] as const){
-    const i=[['📥','Wallet Top-up','Today','+₹1,000',true],['🎥','Consultation — Rajesh K.','Yesterday','-₹400',false],['📥','Wallet Top-up','May 20','+₹500',true],['🎥','Consultation — Priya S.','May 18','-₹260',false]].findIndex(r=>r[1]===desc)
-    const ty=228+i*36
-    ctx.fillStyle='rgba(255,255,255,0.04)'; fillRR(ctx,10,ty,180,30,8)
-    ctx.strokeStyle='rgba(255,255,255,0.07)'; ctx.lineWidth=0.4; rr(ctx,10,ty,180,30,8); ctx.stroke()
-    ctx.font='13px sans-serif'; ctx.fillText(icon,18,ty+21)
-    ctx.fillStyle='rgba(255,255,255,0.88)'; ctx.font='7.5px sans-serif'; ctx.fillText(desc,36,ty+16)
-    ctx.fillStyle='rgba(255,255,255,0.3)'; ctx.font='6px sans-serif'; ctx.fillText(sub,36,ty+26)
-    ctx.fillStyle=pos?'#4ade80':'#f87171'; ctx.font='bold 8px sans-serif'; ctx.fillText(amt,155,ty+18)
-  }
+  // Transaction rows
+  const txns = [
+    { icon: '📥', desc: 'Wallet Top-up',           sub: 'Today',     amt: '+₹1,000', pos: true  },
+    { icon: '🎥', desc: 'Consultation — Rajesh K.', sub: 'Yesterday', amt: '-₹400',  pos: false },
+    { icon: '📥', desc: 'Wallet Top-up',           sub: 'May 20',    amt: '+₹500',  pos: true  },
+    { icon: '🎥', desc: 'Consultation — Priya S.', sub: 'May 18',    amt: '-₹260',  pos: false },
+  ]
+  txns.forEach(({ icon, desc, sub, amt, pos }, i) => {
+    const ty = 226 + i * 36
+    sfrr(ctx, 10, ty, 180, 30, 8, '#1a1010', 'rgba(255,255,255,0.08)', 0.5)
+    ctx.font = '14px sans-serif'; ctx.fillText(icon, 18, ty + 21)
+    ctx.fillStyle = '#e2e8f0'; ctx.font = '7.5px sans-serif'; ctx.fillText(desc, 38, ty + 16)
+    ctx.fillStyle = '#64748b'; ctx.font = '6.5px sans-serif'; ctx.fillText(sub, 38, ty + 26)
+    ctx.fillStyle = pos ? '#4ade80' : '#f87171'; ctx.font = 'bold 9px sans-serif'
+    ctx.fillText(amt, 155, ty + 19)
+  })
 
   homeBar(ctx)
 }
 
 /* ─── screen 5: gst invoice ──────────────────────────── */
 function drawInvoice(ctx: CanvasRenderingContext2D, accent: string) {
-  ctx.fillStyle='#080d08'; ctx.fillRect(0,0,200,400)
+  ctx.fillStyle = '#0a0f0a'; ctx.fillRect(0, 0, 200, 400)
   statusBar(ctx)
 
-  // paper card with shadow
-  ctx.shadowColor='rgba(0,0,0,0.8)'; ctx.shadowBlur=20; ctx.shadowOffsetY=4
-  ctx.fillStyle='#f0f4f0'; fillRR(ctx,8,28,184,352,12)
-  ctx.shadowColor='transparent'; ctx.shadowBlur=0; ctx.shadowOffsetY=0
+  // Paper card + shadow
+  ctx.shadowColor = 'rgba(0,0,0,0.9)'; ctx.shadowBlur = 16; ctx.shadowOffsetY = 6
+  ctx.fillStyle = '#f1f5f1'; fillRR(ctx, 8, 28, 184, 356, 14)
+  ctx.shadowColor = 'transparent'; ctx.shadowBlur = 0; ctx.shadowOffsetY = 0
 
-  // header band
-  const hg=ctx.createLinearGradient(8,28,192,78)
-  hg.addColorStop(0,accent); hg.addColorStop(1,`${accent}cc`)
-  ctx.fillStyle=hg; fillRR(ctx,8,28,184,55,12)
-  ctx.fillStyle=hg; ctx.fillRect(8,64,184,20)
+  // Header band
+  const hg = ctx.createLinearGradient(8, 28, 192, 82)
+  hg.addColorStop(0, accent); hg.addColorStop(1, `${accent}cc`)
+  ctx.fillStyle = hg; fillRR(ctx, 8, 28, 184, 58, 14)
+  ctx.fillStyle = hg; ctx.fillRect(8, 68, 184, 18)
 
-  ctx.fillStyle='rgba(255,255,255,0.95)'; ctx.font='bold 11px -apple-system,sans-serif'
-  ctx.fillText('UDYOGYA',18,50)
-  ctx.fillStyle='rgba(255,255,255,0.65)'; ctx.font='6.5px sans-serif'
-  ctx.fillText('GST TAX INVOICE',18,62)
-  ctx.fillStyle='rgba(255,255,255,0.8)'; ctx.font='bold 6px sans-serif'
-  ctx.fillText('INV-2026-00847',128,50); ctx.fillText('23 May 2026',128,60)
+  ctx.fillStyle = '#ffffff'; ctx.font = 'bold 12px sans-serif'; ctx.fillText('UDYOGYA', 18, 52)
+  ctx.fillStyle = 'rgba(255,255,255,0.7)'; ctx.font = '7px sans-serif'; ctx.fillText('GST TAX INVOICE', 18, 64)
+  ctx.fillStyle = 'rgba(255,255,255,0.85)'; ctx.font = 'bold 6.5px sans-serif'
+  ctx.fillText('INV-2026-00847', 126, 50); ctx.fillText('23 May 2026', 126, 62)
 
-  // paid badge in header
-  ctx.fillStyle='rgba(255,255,255,0.2)'; fillRR(ctx,148,68,40,14,7)
-  ctx.fillStyle='#fff'; ctx.font='bold 6.5px sans-serif'; ctx.fillText('✓ PAID',154,78)
+  // Paid pill in header
+  ctx.fillStyle = 'rgba(255,255,255,0.25)'; fillRR(ctx, 148, 70, 38, 14, 7)
+  ctx.fillStyle = '#ffffff'; ctx.font = 'bold 7px sans-serif'; ctx.fillText('✓ PAID', 153, 80)
 
-  // divider
-  ctx.fillStyle='#d1d5d1'; ctx.fillRect(18,86,164,0.8)
+  // Divider
+  ctx.fillStyle = '#cbd5c8'; ctx.fillRect(18, 90, 164, 1)
 
-  // from/to
-  ctx.fillStyle='#9ca3af'; ctx.font='bold 6px sans-serif'; ctx.fillText('BILL FROM',18,98); ctx.fillText('BILL TO',116,98)
-  ctx.fillStyle='#111827'; ctx.font='bold 7.5px sans-serif'
-  ctx.fillText('Priya Sharma',18,109); ctx.fillText('Akshat Sajwan',116,109)
-  ctx.fillStyle='#6b7280'; ctx.font='6px sans-serif'
-  ctx.fillText('GSTIN: 27AABCP1234M1Z5',18,118); ctx.fillText('New Delhi, 110001',116,118)
+  // From / To
+  ctx.fillStyle = '#9ca3af'; ctx.font = 'bold 6.5px sans-serif'
+  ctx.fillText('BILL FROM', 18, 103); ctx.fillText('BILL TO', 116, 103)
+  ctx.fillStyle = '#111827'; ctx.font = 'bold 8px sans-serif'
+  ctx.fillText('Priya Sharma', 18, 115); ctx.fillText('Akshat Sajwan', 116, 115)
+  ctx.fillStyle = '#6b7280'; ctx.font = '6.5px sans-serif'
+  ctx.fillText('GSTIN: 27AABCP1234M1Z5', 18, 125); ctx.fillText('New Delhi, 110001', 116, 125)
 
-  ctx.fillStyle='#d1d5d1'; ctx.fillRect(18,124,164,0.8)
+  ctx.fillStyle = '#cbd5c8'; ctx.fillRect(18, 132, 164, 1)
 
-  // table header
-  ctx.fillStyle='#e9ecef'; ctx.fillRect(18,128,164,16)
-  ctx.fillStyle='#374151'; ctx.font='bold 6px sans-serif'
-  ctx.fillText('DESCRIPTION',22,139); ctx.fillText('QTY',128,139); ctx.fillText('AMT',158,139)
+  // Table header
+  ctx.fillStyle = '#e5e9e5'; ctx.fillRect(18, 136, 164, 18)
+  ctx.fillStyle = '#374151'; ctx.font = 'bold 6.5px sans-serif'
+  ctx.fillText('DESCRIPTION', 22, 148); ctx.fillText('QTY', 130, 148); ctx.fillText('AMT', 158, 148)
 
-  // items
+  // Items
   ;[
-    {d:'Expert Consultation (GST)',q:'1 hr',a:'₹800'},
-    {d:'Video Call Platform Fee',   q:'1',    a:'₹40'},
-  ].forEach(({d,q,a},i)=>{
-    const iy=148+i*22
-    ctx.fillStyle=i%2===0?'#ffffff':'#f8faf8'; ctx.fillRect(18,iy-8,164,20)
-    ctx.fillStyle='#374151'; ctx.font='6.5px sans-serif'
-    ctx.fillText(d,22,iy+5); ctx.fillText(q,130,iy+5); ctx.fillText(a,156,iy+5)
+    { d: 'Expert Consultation (GST)', q: '1 hr', a: '₹800' },
+    { d: 'Video Call Platform Fee',   q: '1',    a: '₹40'  },
+  ].forEach(({ d, q, a }, i) => {
+    const iy = 158 + i * 24
+    ctx.fillStyle = i % 2 === 0 ? '#ffffff' : '#f8faf8'; ctx.fillRect(18, iy - 10, 164, 22)
+    ctx.fillStyle = '#374151'; ctx.font = '7px sans-serif'
+    ctx.fillText(d, 22, iy + 5); ctx.fillText(q, 132, iy + 5); ctx.fillText(a, 156, iy + 5)
   })
 
-  ctx.fillStyle='#d1d5d1'; ctx.fillRect(18,196,164,0.8)
+  ctx.fillStyle = '#cbd5c8'; ctx.fillRect(18, 208, 164, 1)
 
-  // tax breakdown
-  for(const {l,v,y} of [{l:'Subtotal',v:'₹840.00',y:210},{l:'CGST 9%',v:'₹75.60',y:221},{l:'SGST 9%',v:'₹75.60',y:232}]){
-    ctx.fillStyle='#6b7280'; ctx.font='6.5px sans-serif'
-    ctx.fillText(l,22,y); ctx.fillText(v,158,y)
-  }
+  // Tax breakdown
+  ;[
+    { l: 'Subtotal', v: '₹840.00', y: 222 },
+    { l: 'CGST 9%',  v: '₹75.60',  y: 234 },
+    { l: 'SGST 9%',  v: '₹75.60',  y: 246 },
+  ].forEach(({ l, v, y }) => {
+    ctx.fillStyle = '#6b7280'; ctx.font = '7px sans-serif'
+    ctx.fillText(l, 22, y); ctx.fillText(v, 158, y)
+  })
 
-  ctx.fillStyle='#d1d5d1'; ctx.fillRect(18,238,164,0.8)
+  ctx.fillStyle = '#cbd5c8'; ctx.fillRect(18, 252, 164, 1)
 
-  // total band
-  const tg=ctx.createLinearGradient(18,242,182,262)
-  tg.addColorStop(0,accent); tg.addColorStop(1,`${accent}cc`)
-  ctx.fillStyle=tg; ctx.fillRect(18,242,164,20)
-  ctx.fillStyle='#fff'; ctx.font='bold 8px sans-serif'
-  ctx.fillText('TOTAL (incl. GST)',22,255); ctx.fillText('₹991.20',144,255)
+  // Total row
+  const tg = ctx.createLinearGradient(18, 256, 182, 278)
+  tg.addColorStop(0, accent); tg.addColorStop(1, `${accent}cc`)
+  ctx.fillStyle = tg; ctx.fillRect(18, 256, 164, 22)
+  ctx.fillStyle = '#ffffff'; ctx.font = 'bold 9px sans-serif'
+  ctx.fillText('TOTAL (incl. GST)', 22, 271); ctx.fillText('₹991.20', 142, 271)
 
-  // paid stamp
-  ctx.fillStyle='#dcfce7'; fillRR(ctx,56,268,88,18,9)
-  ctx.strokeStyle='#22c55e'; ctx.lineWidth=0.8; rr(ctx,56,268,88,18,9); ctx.stroke()
-  ctx.fillStyle='#15803d'; ctx.font='bold 7px sans-serif'
-  ctx.fillText('✓  PAYMENT RECEIVED',63,280)
+  // Paid stamp
+  ctx.fillStyle = '#dcfce7'; fillRR(ctx, 54, 284, 92, 20, 10)
+  ctx.strokeStyle = '#22c55e'; ctx.lineWidth = 0.8; rr(ctx, 54, 284, 92, 20, 10); ctx.stroke()
+  ctx.fillStyle = '#15803d'; ctx.font = 'bold 7.5px sans-serif'
+  ctx.fillText('✓  PAYMENT RECEIVED', 60, 297)
 
-  ctx.fillStyle='#d1d5d1'; ctx.fillRect(18,292,164,0.8)
+  ctx.fillStyle = '#cbd5c8'; ctx.fillRect(18, 310, 164, 1)
 
-  // download btn
-  const dg=ctx.createLinearGradient(18,298,182,320)
-  dg.addColorStop(0,accent); dg.addColorStop(1,`${accent}bb`)
-  ctx.fillStyle=dg; fillRR(ctx,18,298,164,22,8)
-  ctx.fillStyle='#fff'; ctx.font='bold 8px sans-serif'; ctx.fillText('⬇  Download PDF Invoice',42,313)
+  // Download btn
+  const dg = ctx.createLinearGradient(18, 316, 182, 340)
+  dg.addColorStop(0, accent); dg.addColorStop(1, `${accent}bb`)
+  ctx.fillStyle = dg; fillRR(ctx, 18, 316, 164, 24, 8)
+  ctx.fillStyle = '#ffffff'; ctx.font = 'bold 8.5px sans-serif'
+  ctx.fillText('⬇  Download PDF Invoice', 38, 332)
 
-  // share outline btn
-  strokeFillRR(ctx,18,328,164,22,8,'#edf7ed',accent,0.8)
-  ctx.fillStyle=accent; ctx.font='bold 7.5px sans-serif'; ctx.fillText('↗  Share with Accountant',42,343)
+  // Share btn
+  sfrr(ctx, 18, 348, 164, 24, 8, '#edf7ed', accent, 0.9)
+  ctx.fillStyle = accent; ctx.font = 'bold 8px sans-serif'
+  ctx.fillText('↗  Share with Accountant', 40, 364)
 
-  ctx.fillStyle='#9ca3af'; ctx.font='5.5px sans-serif'
-  ctx.fillText('System-generated invoice · CGST Act 2017',18,360)
-  ctx.fillText('Valid for ITC claim. GST registered.',38,369)
+  ctx.fillStyle = '#9ca3af'; ctx.font = '6px sans-serif'
+  ctx.fillText('System-generated · Valid for ITC claim', 22, 382)
 
   homeBar(ctx)
 }
@@ -576,10 +570,10 @@ const DRAW_FNS = [drawChat, drawAI, drawVideo, drawProfile, drawWallet, drawInvo
 
 function createScreenTexture(color: string, index: number): THREE.CanvasTexture {
   const canvas = document.createElement('canvas')
-  canvas.width  = 400   // 2x for sharpness
+  canvas.width  = 400
   canvas.height = 800
   const ctx = canvas.getContext('2d')!
-  ctx.scale(2, 2)       // draw at 2x, displayed at 200×400
+  ctx.scale(2, 2)
   const fn = DRAW_FNS[Math.min(index, DRAW_FNS.length - 1)]
   fn(ctx, color)
   const tex = new THREE.CanvasTexture(canvas)
@@ -588,7 +582,7 @@ function createScreenTexture(color: string, index: number): THREE.CanvasTexture 
   return tex
 }
 
-/* ─── PhoneMockup component ───────────────────────────── */
+/* ─── component ───────────────────────────────────────── */
 export function PhoneMockup({
   screenColor = '#1A73E8',
   screenIndex = 0,
@@ -618,19 +612,42 @@ export function PhoneMockup({
   return (
     <Float speed={1.5} rotationIntensity={0.2} floatIntensity={0.4}>
       <group ref={groupRef} scale={scale}>
-        {/* Phone body */}
-        <RoundedBox args={[1.2, 2.4, 0.12]} radius={0.12} smoothness={4}>
-          <meshStandardMaterial color="#111827" metalness={0.65} roughness={0.25} />
+
+        {/* Phone body — visible silver-gray aluminum look */}
+        <RoundedBox args={[1.2, 2.4, 0.12]} radius={0.12} smoothness={6}>
+          <meshStandardMaterial
+            color="#4a5568"
+            metalness={0.85}
+            roughness={0.15}
+          />
         </RoundedBox>
 
-        {/* Screen */}
-        <RoundedBox args={[1.0, 2.0, 0.01]} radius={0.06} smoothness={4} position={[0, 0, 0.065]}>
-          <meshStandardMaterial map={texture} />
+        {/* Bezel / inner frame — slightly darker inset ring */}
+        <RoundedBox args={[1.06, 2.12, 0.11]} radius={0.08} smoothness={4} position={[0, 0, 0.003]}>
+          <meshStandardMaterial color="#1a1a2e" metalness={0.4} roughness={0.5} />
+        </RoundedBox>
+
+        {/* Screen — meshBasicMaterial so texture shows at FULL brightness, unaffected by lighting */}
+        <RoundedBox args={[1.0, 2.0, 0.02]} radius={0.06} smoothness={4} position={[0, 0, 0.062]}>
+          <meshBasicMaterial map={texture} />
         </RoundedBox>
 
         {/* Home bar */}
-        <RoundedBox args={[0.28, 0.04, 0.01]} radius={0.02} smoothness={4} position={[0, -1.05, 0.07]}>
-          <meshStandardMaterial color="#ffffff" opacity={0.45} transparent />
+        <RoundedBox args={[0.28, 0.04, 0.01]} radius={0.02} smoothness={4} position={[0, -1.06, 0.074]}>
+          <meshBasicMaterial color="#888888" />
+        </RoundedBox>
+
+        {/* Side button — right */}
+        <RoundedBox args={[0.02, 0.18, 0.04]} radius={0.01} smoothness={2} position={[0.62, 0.2, 0]}>
+          <meshStandardMaterial color="#3a4555" metalness={0.9} roughness={0.1} />
+        </RoundedBox>
+
+        {/* Volume buttons — left */}
+        <RoundedBox args={[0.02, 0.12, 0.04]} radius={0.01} smoothness={2} position={[-0.62, 0.38, 0]}>
+          <meshStandardMaterial color="#3a4555" metalness={0.9} roughness={0.1} />
+        </RoundedBox>
+        <RoundedBox args={[0.02, 0.12, 0.04]} radius={0.01} smoothness={2} position={[-0.62, 0.18, 0]}>
+          <meshStandardMaterial color="#3a4555" metalness={0.9} roughness={0.1} />
         </RoundedBox>
 
         {/* Glow halo */}
