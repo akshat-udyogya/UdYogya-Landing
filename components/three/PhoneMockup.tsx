@@ -613,41 +613,33 @@ export function PhoneMockup({
     <Float speed={1.5} rotationIntensity={0.2} floatIntensity={0.4}>
       <group ref={groupRef} scale={scale}>
 
-        {/* Phone body — visible silver-gray aluminum look */}
-        <RoundedBox args={[1.2, 2.4, 0.12]} radius={0.12} smoothness={6}>
-          <meshStandardMaterial
-            color="#4a5568"
-            metalness={0.85}
-            roughness={0.15}
-          />
+        {/* Phone body — silver-gray aluminum */}
+        <RoundedBox args={[1.2, 2.4, 0.12]} radius={0.14} smoothness={6}>
+          <meshStandardMaterial color="#5a6478" metalness={0.9} roughness={0.1} />
         </RoundedBox>
 
-        {/* Bezel / inner frame — slightly darker inset ring */}
-        <RoundedBox args={[1.06, 2.12, 0.11]} radius={0.08} smoothness={4} position={[0, 0, 0.003]}>
-          <meshStandardMaterial color="#1a1a2e" metalness={0.4} roughness={0.5} />
-        </RoundedBox>
-
-        {/* Screen — meshBasicMaterial so texture shows at FULL brightness, unaffected by lighting */}
-        <RoundedBox args={[1.0, 2.0, 0.02]} radius={0.06} smoothness={4} position={[0, 0, 0.062]}>
+        {/* Screen — fills 93 % of body width/height (modern thin bezel).
+            meshBasicMaterial = unlit, shows texture at full brightness. */}
+        <RoundedBox args={[1.12, 2.22, 0.02]} radius={0.08} smoothness={4} position={[0, 0, 0.062]}>
           <meshBasicMaterial map={texture} />
         </RoundedBox>
 
         {/* Home bar */}
-        <RoundedBox args={[0.28, 0.04, 0.01]} radius={0.02} smoothness={4} position={[0, -1.06, 0.074]}>
-          <meshBasicMaterial color="#888888" />
+        <RoundedBox args={[0.28, 0.04, 0.01]} radius={0.02} smoothness={2} position={[0, -1.09, 0.075]}>
+          <meshBasicMaterial color="#aaaaaa" />
         </RoundedBox>
 
         {/* Side button — right */}
-        <RoundedBox args={[0.02, 0.18, 0.04]} radius={0.01} smoothness={2} position={[0.62, 0.2, 0]}>
-          <meshStandardMaterial color="#3a4555" metalness={0.9} roughness={0.1} />
+        <RoundedBox args={[0.025, 0.20, 0.05]} radius={0.01} smoothness={2} position={[0.625, 0.22, 0]}>
+          <meshStandardMaterial color="#4a5568" metalness={0.9} roughness={0.1} />
         </RoundedBox>
 
         {/* Volume buttons — left */}
-        <RoundedBox args={[0.02, 0.12, 0.04]} radius={0.01} smoothness={2} position={[-0.62, 0.38, 0]}>
-          <meshStandardMaterial color="#3a4555" metalness={0.9} roughness={0.1} />
+        <RoundedBox args={[0.025, 0.14, 0.05]} radius={0.01} smoothness={2} position={[-0.625, 0.40, 0]}>
+          <meshStandardMaterial color="#4a5568" metalness={0.9} roughness={0.1} />
         </RoundedBox>
-        <RoundedBox args={[0.02, 0.12, 0.04]} radius={0.01} smoothness={2} position={[-0.62, 0.18, 0]}>
-          <meshStandardMaterial color="#3a4555" metalness={0.9} roughness={0.1} />
+        <RoundedBox args={[0.025, 0.14, 0.05]} radius={0.01} smoothness={2} position={[-0.625, 0.18, 0]}>
+          <meshStandardMaterial color="#4a5568" metalness={0.9} roughness={0.1} />
         </RoundedBox>
 
         {/* Glow halo */}
