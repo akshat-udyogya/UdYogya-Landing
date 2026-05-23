@@ -519,12 +519,15 @@ function drawInvoice(ctx: CanvasRenderingContext2D, accent: string) {
   ctx.fillText('DESCRIPTION',22,139); ctx.fillText('QTY',128,139); ctx.fillText('AMT',158,139)
 
   // items
-  for(const [i,{d,q,a}] of [[0,{d:'Expert Consultation (GST)',q:'1 hr',a:'₹800'}],[1,{d:'Video Call Platform Fee',q:'1',a:'₹40'}]].entries()){
+  ;[
+    {d:'Expert Consultation (GST)',q:'1 hr',a:'₹800'},
+    {d:'Video Call Platform Fee',   q:'1',    a:'₹40'},
+  ].forEach(({d,q,a},i)=>{
     const iy=148+i*22
     ctx.fillStyle=i%2===0?'#ffffff':'#f8faf8'; ctx.fillRect(18,iy-8,164,20)
     ctx.fillStyle='#374151'; ctx.font='6.5px sans-serif'
     ctx.fillText(d,22,iy+5); ctx.fillText(q,130,iy+5); ctx.fillText(a,156,iy+5)
-  }
+  })
 
   ctx.fillStyle='#d1d5d1'; ctx.fillRect(18,196,164,0.8)
 
