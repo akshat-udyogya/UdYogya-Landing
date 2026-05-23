@@ -578,9 +578,14 @@ function createScreenTexture(color: string, index: number): THREE.CanvasTexture 
   fn(ctx, color)
   const tex = new THREE.CanvasTexture(canvas)
   tex.colorSpace = THREE.SRGBColorSpace
-  // RoundedBox UV has v=0 at top (inverted vs standard Three.js geometry),
-  // so flipY=false is needed to display canvas content right-side-up.
+  // RoundedBox UV: v=0 is at the bottom of the face (standard), but
+  // without flipY correction the canvas y=0 lands at the bottom too —
+  // double-wrong.  Fix: disable flipY so canvas top → UV v=0 (bottom of
+  // face), then flip the UV sampling with repeat/offset so v=0 maps to
+  // the TOP of the displayed face, putting the status bar at the top.
   tex.flipY = false
+  tex.repeat.set(1, -1)   // traverse V from 1→0 (top→bottom)
+  tex.offset.set(0, 1)    // start at v=1 (top of face)
   tex.anisotropy = 4
   return tex
 }
