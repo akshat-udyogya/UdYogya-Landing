@@ -578,14 +578,6 @@ function createScreenTexture(color: string, index: number): THREE.CanvasTexture 
   fn(ctx, color)
   const tex = new THREE.CanvasTexture(canvas)
   tex.colorSpace = THREE.SRGBColorSpace
-  // RoundedBox UV: v=0 is at the bottom of the face (standard), but
-  // without flipY correction the canvas y=0 lands at the bottom too —
-  // double-wrong.  Fix: disable flipY so canvas top → UV v=0 (bottom of
-  // face), then flip the UV sampling with repeat/offset so v=0 maps to
-  // the TOP of the displayed face, putting the status bar at the top.
-  tex.flipY = false
-  tex.repeat.set(1, -1)   // traverse V from 1→0 (top→bottom)
-  tex.offset.set(0, 1)    // start at v=1 (top of face)
   tex.anisotropy = 4
   return tex
 }
@@ -626,11 +618,13 @@ export function PhoneMockup({
           <meshStandardMaterial color="#5a6478" metalness={0.9} roughness={0.1} />
         </RoundedBox>
 
-        {/* Screen — fills 93 % of body width/height (modern thin bezel).
+        {/* Screen — PlaneGeometry has a clean 0→1 UV on its single face,
+            so the full canvas maps to the full screen with no atlas tricks.
             meshBasicMaterial = unlit, shows texture at full brightness. */}
-        <RoundedBox args={[1.12, 2.22, 0.02]} radius={0.08} smoothness={4} position={[0, 0, 0.062]}>
+        <mesh position={[0, 0, 0.062]}>
+          <planeGeometry args={[1.12, 2.22]} />
           <meshBasicMaterial map={texture} />
-        </RoundedBox>
+        </mesh>
 
         {/* Home bar */}
         <RoundedBox args={[0.28, 0.04, 0.01]} radius={0.02} smoothness={2} position={[0, -1.09, 0.075]}>
