@@ -12,7 +12,6 @@ import dynamic   from 'next/dynamic'
 import { motion } from 'framer-motion'
 import { ExpertPanel } from '@/components/ui/ExpertPanel'
 import { DataTicker }  from '@/components/ui/DataTicker'
-import { TargetCursor } from '@/components/ui/TargetCursor'
 import { MODULES }     from '@/components/three/DigitalTwinScene'
 import type { ModuleInfo } from '@/components/three/DigitalTwinScene'
 
@@ -500,8 +499,6 @@ export default function DigitalTwinHero() {
 
   return (
     <>
-      {/* Custom cursor — desktop only */}
-      {!isMobile && <TargetCursor />}
 
       {isMobile
         ? <MobileHero    onModuleClick={openPanel} />
