@@ -578,6 +578,9 @@ function createScreenTexture(color: string, index: number): THREE.CanvasTexture 
   fn(ctx, color)
   const tex = new THREE.CanvasTexture(canvas)
   tex.colorSpace = THREE.SRGBColorSpace
+  // RoundedBox UV has v=0 at top (inverted vs standard Three.js geometry),
+  // so flipY=false is needed to display canvas content right-side-up.
+  tex.flipY = false
   tex.anisotropy = 4
   return tex
 }
