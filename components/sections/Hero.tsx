@@ -21,8 +21,48 @@ export default function Hero() {
       id="hero"
       className="relative min-h-screen flex flex-col bg-background overflow-hidden"
     >
-      {/* 3D Canvas — absolute background */}
-      <div className="absolute inset-0 z-0" aria-hidden="true">
+      {/* ── Aurora background — pure CSS, zero GPU cost ───────────────── */}
+      <div className="absolute inset-0 z-0 overflow-hidden" aria-hidden="true">
+        {/* Cobalt blob — top-right */}
+        <div style={{
+          position: 'absolute',
+          width: 680, height: 680,
+          borderRadius: '50%',
+          background: '#1A73E8',
+          filter: 'blur(130px)',
+          opacity: 0.22,
+          top: -160, right: -120,
+          animation: 'aurora-drift-1 16s ease-in-out infinite alternate',
+          willChange: 'transform',
+        }} />
+        {/* Orange blob — bottom-left */}
+        <div style={{
+          position: 'absolute',
+          width: 520, height: 520,
+          borderRadius: '50%',
+          background: '#FF6B35',
+          filter: 'blur(110px)',
+          opacity: 0.16,
+          bottom: -80, left: 60,
+          animation: 'aurora-drift-2 13s ease-in-out infinite alternate',
+          willChange: 'transform',
+        }} />
+        {/* Purple mid blob — center */}
+        <div style={{
+          position: 'absolute',
+          width: 460, height: 460,
+          borderRadius: '50%',
+          background: '#6C5CE7',
+          filter: 'blur(100px)',
+          opacity: 0.11,
+          top: '28%', left: '28%',
+          animation: 'aurora-drift-3 19s ease-in-out infinite alternate',
+          willChange: 'transform',
+        }} />
+      </div>
+
+      {/* ── 3D Canvas — phone + icons float above the aurora ─────────── */}
+      <div className="absolute inset-0 z-[1]" aria-hidden="true">
         <HeroCanvas />
       </div>
 

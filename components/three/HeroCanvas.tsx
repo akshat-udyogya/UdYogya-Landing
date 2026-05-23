@@ -1,31 +1,34 @@
 'use client'
-import { Suspense } from 'react'
-import { Canvas } from '@react-three/fiber'
-import { ParticleField } from '@/components/three/ParticleField'
-import { PhoneMockup } from '@/components/three/PhoneMockup'
-import { FloatingIcons } from '@/components/three/FloatingIcons'
+import { Suspense }      from 'react'
+import { Canvas }        from '@react-three/fiber'
+import { ExpertScene }   from '@/components/three/ExpertScene'
 
 /**
  * Self-contained R3F canvas for the Hero section.
- * Must be dynamically imported (ssr: false) — Three.js requires a browser.
+ *
+ * The canvas background is transparent so the CSS aurora gradient
+ * in Hero.tsx shows through the dark areas around the white platform.
+ * The platform + cards + phone sit on top of it like a product
+ * photography shoot on a white stage.
+ *
+ * Must be dynamically imported (ssr: false).
  */
 export default function HeroCanvas() {
   return (
-    <Canvas dpr={[1, 1.5]} camera={{ position: [0, 0, 8], fov: 60 }}>
-      {/* General illumination */}
-      <ambientLight intensity={0.35} />
-      {/* Key light — warm white from upper right */}
-      <pointLight position={[5, 5, 5]} intensity={0.9} color="#ffffff" />
-      {/* Fill light — cobalt from lower left, brings out the icon colour */}
-      <pointLight position={[-4, -3, 3]} intensity={0.6} color="#494fdf" />
+    <Canvas
+      dpr={[1, 1.5]}
+      camera={{ position: [0, 0.8, 9], fov: 56 }}
+      gl={{ alpha: true, antialias: true }}
+      style={{ background: 'transparent' }}
+    >
+      {/* Soft ambient base so nothing is pitch-black */}
+      <ambientLight intensity={0.25} />
+
+      {/* Atmospheric fog — fades the platform edges into the aurora */}
+      <fog attach="fog" args={['#050A18', 11, 22]} />
 
       <Suspense fallback={null}>
-        {/* Atmosphere — cobalt/white particle cloud */}
-        <ParticleField />
-        {/* Udyogya-specific floating 3D profession icons */}
-        <FloatingIcons />
-        {/* Phone mockup — Revolut cobalt screen, single intro rotation */}
-        <PhoneMockup screenColor="#494fdf" scale={1.3} autoRotate />
+        <ExpertScene />
       </Suspense>
     </Canvas>
   )

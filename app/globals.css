@@ -28,3 +28,37 @@
   line-height: 1.2;
   letter-spacing: -0.01em;
 }
+
+/* ── Aurora hero background ──────────────────────────────────────────── */
+@keyframes aurora-drift-1 {
+  0%   { transform: translate(0,    0)    scale(1.00); }
+  100% { transform: translate(-70px, 80px) scale(1.12); }
+}
+@keyframes aurora-drift-2 {
+  0%   { transform: translate(0,   0)     scale(1.00); }
+  100% { transform: translate(80px, -60px) scale(0.90); }
+}
+@keyframes aurora-drift-3 {
+  0%   { transform: translate(0,    0)    scale(1.08); }
+  100% { transform: translate(-50px, -80px) scale(0.95); }
+}
+
+/* ── Digital Twin Hub ────────────────────────────────────────────────── */
+@keyframes ticker-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; box-shadow: 0 0 8px #00FFFF; }
+  50%       { opacity: 0.45; box-shadow: 0 0 4px #00FFFF; }
+}
+
+/* Hide scrollbar — used for mobile module card strip */
+.hide-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+
+/* Hide default cursor on Digital Twin Hub page only */
+body.digital-twin-cursor * {
+  cursor: none !important;
+}
