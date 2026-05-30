@@ -1,3 +1,4 @@
+'use client'
 import { WEB_APP_URL } from '@/lib/constants'
 
 interface WebAppBadgeProps {
