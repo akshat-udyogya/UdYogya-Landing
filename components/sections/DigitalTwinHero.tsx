@@ -12,8 +12,10 @@ import dynamic   from 'next/dynamic'
 import { motion } from 'framer-motion'
 import { ExpertPanel } from '@/components/ui/ExpertPanel'
 import { DataTicker }  from '@/components/ui/DataTicker'
+import { WebAppBadge } from '@/components/ui/WebAppBadge'
 import { MODULES }     from '@/components/three/DigitalTwinScene'
 import type { ModuleInfo } from '@/components/three/DigitalTwinScene'
+import { PLAY_STORE_URL } from '@/lib/constants'
 
 const DigitalTwinCanvas = dynamic(
   () => import('@/components/three/DigitalTwinCanvas'),
@@ -117,8 +119,11 @@ function NavBar({ mobile }: { mobile: boolean }) {
           onMouseLeave={e => (e.currentTarget.style.color='rgba(255,255,255,0.55)')}
           >{n}</a>
         ))}
+        {!mobile && (
+          <WebAppBadge size="sm" variant="cyan" label="WEB APP" />
+        )}
         <a
-          href="https://play.google.com/store/apps/details?id=com.udyogya"
+          href={PLAY_STORE_URL}
           data-interactive
           style={{
             fontFamily:'var(--font-mono, monospace)',
@@ -297,7 +302,7 @@ function MobileHero({ onModuleClick }: { onModuleClick: (m: ModuleInfo) => void 
             style={{ display:'flex', gap:10, flexWrap:'wrap', marginBottom:28 }}
           >
             <a
-              href="https://play.google.com/store/apps/details?id=com.udyogya"
+              href={PLAY_STORE_URL}
               style={{
                 fontFamily:'var(--font-mono, monospace)',
                 background:'#00FFFF', color:'#050A18',
@@ -309,6 +314,7 @@ function MobileHero({ onModuleClick }: { onModuleClick: (m: ModuleInfo) => void 
             >
               ▶ DOWNLOAD APP
             </a>
+            <WebAppBadge size="lg" variant="cyan" label="OPEN WEB APP" />
           </motion.div>
 
           {/* Tap-card hint */}
@@ -440,7 +446,7 @@ function DesktopHero({ onModuleClick }: { onModuleClick: (m: ModuleInfo) => void
             style={{ display:'flex', gap:14, flexWrap:'wrap', pointerEvents:'auto' }}
           >
             <a
-              href="https://play.google.com/store/apps/details?id=com.udyogya"
+              href={PLAY_STORE_URL}
               data-interactive
               style={{
                 fontFamily:'var(--font-mono, monospace)',
@@ -453,13 +459,14 @@ function DesktopHero({ onModuleClick }: { onModuleClick: (m: ModuleInfo) => void
             >
               ▶ DOWNLOAD APP
             </a>
+            <WebAppBadge size="lg" variant="cyan" label="OPEN WEB APP" />
             <button
               data-interactive
               onClick={() => onModuleClick(MODULES[0])}
               style={{
                 fontFamily:'var(--font-mono, monospace)',
-                background:'transparent', color:'#00FFFF',
-                border:'1px solid rgba(0,255,255,0.4)',
+                background:'transparent', color:'rgba(255,255,255,0.5)',
+                border:'1px solid rgba(255,255,255,0.2)',
                 padding:'13px 24px', borderRadius:4,
                 fontWeight:600, fontSize:13,
                 letterSpacing:'0.10em', cursor:'pointer',

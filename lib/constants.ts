@@ -117,3 +117,4 @@ export const TESTIMONIALS = [
 ]
 
 export const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=com.udyogya.app'
+export const WEB_APP_URL    = 'https://udyogya.com'

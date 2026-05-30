@@ -2,6 +2,8 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { SectionHeading } from '@/components/ui/SectionHeading'
+import { WebAppBadge }    from '@/components/ui/WebAppBadge'
+import { PlayStoreBadge } from '@/components/ui/PlayStoreBadge'
 import { COPY } from '@/lib/constants'
 
 const STEP_ICONS = ['🔍', '💬', '✅']
@@ -53,6 +55,19 @@ export default function HowItWorks() {
             </React.Fragment>
           ))}
         </div>
+
+        {/* CTA row */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.5, duration: 0.5 }}
+          className="mt-14 flex flex-col sm:flex-row items-center justify-center gap-4"
+        >
+          <p className="text-[#505a63] text-sm font-medium">Ready to get started?</p>
+          <WebAppBadge size="sm" variant="dark" label="Open Web App" />
+          <PlayStoreBadge size="sm" />
+        </motion.div>
       </div>
     </section>
   )

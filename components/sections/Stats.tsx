@@ -1,4 +1,6 @@
 import { AnimatedCounter } from '@/components/ui/AnimatedCounter'
+import { WebAppBadge }    from '@/components/ui/WebAppBadge'
+import { PlayStoreBadge } from '@/components/ui/PlayStoreBadge'
 import { COPY } from '@/lib/constants'
 
 export default function Stats() {
@@ -8,7 +10,7 @@ export default function Stats() {
       style={{ background: '#494fdf' }}
       aria-label="Udyogya statistics"
     >
-      <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-12">
+      <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-12 mb-14">
         {COPY.stats.map((stat) => (
           <AnimatedCounter
             key={stat.label}
@@ -17,6 +19,10 @@ export default function Stats() {
             label={stat.label}
           />
         ))}
+      </div>
+      <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <WebAppBadge size="lg" variant="white" label="Open Web App" />
+        <PlayStoreBadge size="lg" />
       </div>
     </section>
   )

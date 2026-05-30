@@ -2,6 +2,7 @@
 import dynamic from 'next/dynamic'
 import { motion } from 'framer-motion'
 import { PlayStoreBadge } from '@/components/ui/PlayStoreBadge'
+import { WebAppBadge }   from '@/components/ui/WebAppBadge'
 import { COPY } from '@/lib/constants'
 
 const CTACanvas = dynamic(
@@ -45,7 +46,9 @@ export default function DownloadCTA() {
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true }}
         transition={{ delay: 0.4, duration: 0.5 }}
+        className="flex flex-col sm:flex-row items-center gap-4"
       >
+        <WebAppBadge size="lg" variant="cyan" label="OPEN WEB APP" />
         <PlayStoreBadge size="lg" />
       </motion.div>
 

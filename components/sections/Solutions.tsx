@@ -6,7 +6,7 @@ const SOLUTIONS = [
     icon: '🧑‍💼',
     title: 'Expert Platform',
     description: 'Connect with verified industrial experts — PLC engineers, hydraulics specialists, GST consultants and more. Pay only for the help you need.',
-    url: 'https://expert.udyogya.com',
+    url: 'https://udyogya.com',
     live: true,
     cta: 'Launch App',
   },
