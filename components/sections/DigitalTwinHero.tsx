@@ -94,9 +94,13 @@ function NavBar({ mobile }: { mobile: boolean }) {
     >
       <div style={{ display:'flex', alignItems:'center', gap:10 }}>
         <div style={{
-          width:10, height:10, borderRadius:'50%',
-          background:'#00FFFF', boxShadow:'0 0 8px #00FFFF',
-          animation:'pulse-dot 2s ease-in-out infinite',
+          width: mobile ? 28 : 32, height: mobile ? 28 : 32,
+          borderRadius: 8,
+          backgroundImage: 'url(/assets/logo.png)',
+          backgroundSize: '154%',
+          backgroundPosition: 'center top',
+          backgroundRepeat: 'no-repeat',
+          flexShrink: 0,
         }} />
         <span style={{
           fontFamily:'var(--font-orbitron, monospace)',

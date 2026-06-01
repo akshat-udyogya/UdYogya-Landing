@@ -57,7 +57,18 @@ export default function DownloadCTA() {
       {/* Footer */}
       <div className="mt-24 pt-8 border-t border-[rgba(255,255,255,0.12)] w-full max-w-4xl flex flex-col md:flex-row items-center justify-between gap-4 text-[rgba(255,255,255,0.5)] text-sm tracking-[0.015em]">
         <p>© 2026 Anarpakaya. All rights reserved.</p>
-        <p>Udyogya — India&apos;s Expert Network</p>
+        <div style={{ display:'flex', alignItems:'center', gap:8 }}>
+          <div style={{
+            width:24, height:24,
+            borderRadius:6,
+            backgroundImage:'url(/assets/logo.png)',
+            backgroundSize:'154%',
+            backgroundPosition:'center top',
+            backgroundRepeat:'no-repeat',
+            flexShrink:0,
+          }} />
+          <span>Udyogya — India&apos;s Expert Network</span>
+        </div>
       </div>
     </section>
   )
