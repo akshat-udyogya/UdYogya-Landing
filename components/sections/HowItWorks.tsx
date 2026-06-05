@@ -10,12 +10,11 @@ const STEP_ICONS = ['🔍', '💬', '✅']
 
 export default function HowItWorks() {
   return (
-    <section id="how-it-works" className="bg-[#f4f4f4] py-24 px-8 md:px-16">
+    <section id="how-it-works" className="bg-[#0D1526] py-24 px-8 md:px-16">
       <div className="max-w-5xl mx-auto">
         <SectionHeading
           heading="How It Works"
           sub="Get expert help in three simple steps"
-          light
         />
 
         <div className="mt-16 flex flex-col md:flex-row items-center justify-center gap-0">
@@ -42,8 +41,8 @@ export default function HowItWorks() {
                 {/* Icon */}
                 <div className="text-4xl mb-4">{STEP_ICONS[i]}</div>
 
-                <h3 className="font-display font-medium text-xl text-ink mb-3 display-md-tight">{item.title}</h3>
-                <p className="text-[#505a63] text-base leading-relaxed">{item.desc}</p>
+                <h3 className="font-display font-medium text-xl text-white mb-3 display-md-tight">{item.title}</h3>
+                <p className="text-[rgba(255,255,255,0.6)] text-base leading-relaxed">{item.desc}</p>
               </motion.div>
 
               {/* Connector arrow between steps */}
@@ -64,7 +63,7 @@ export default function HowItWorks() {
           transition={{ delay: 0.5, duration: 0.5 }}
           className="mt-14 flex flex-col sm:flex-row items-center justify-center gap-4"
         >
-          <p className="text-[#505a63] text-sm font-medium">Ready to get started?</p>
+          <p className="text-[rgba(255,255,255,0.55)] text-sm font-medium">Ready to get started?</p>
           <WebAppBadge size="sm" variant="dark" label="Open Web App" />
           <PlayStoreBadge size="sm" />
         </motion.div>

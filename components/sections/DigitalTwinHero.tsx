@@ -93,15 +93,13 @@ function NavBar({ mobile }: { mobile: boolean }) {
       }}
     >
       <div style={{ display:'flex', alignItems:'center', gap:10 }}>
-        <div style={{
-          width: mobile ? 28 : 32, height: mobile ? 28 : 32,
-          borderRadius: 8,
-          backgroundImage: 'url(/assets/logo.png)',
-          backgroundSize: '154%',
-          backgroundPosition: 'center top',
-          backgroundRepeat: 'no-repeat',
-          flexShrink: 0,
-        }} />
+        <img
+          src="/assets/logo-icon.png"
+          alt="UdYogya"
+          width={mobile ? 28 : 32}
+          height={mobile ? 28 : 32}
+          style={{ borderRadius: 8, flexShrink: 0, display: 'block' }}
+        />
         <span style={{
           fontFamily:'var(--font-orbitron, monospace)',
           color:'#fff', fontSize: mobile ? 16 : 18,

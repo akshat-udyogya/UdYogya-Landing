@@ -2,6 +2,7 @@ import DigitalTwinHero   from '@/components/sections/DigitalTwinHero'
 import ProblemStatement   from '@/components/sections/ProblemStatement'
 import HowItWorks         from '@/components/sections/HowItWorks'
 import Features           from '@/components/sections/Features'
+import UstaadSection      from '@/components/sections/UstaadSection'
 import ExpertSpotlight    from '@/components/sections/ExpertSpotlight'
 import Testimonials       from '@/components/sections/Testimonials'
 import Stats              from '@/components/sections/Stats'
@@ -15,6 +16,7 @@ export default function Page() {
       <ProblemStatement />
       <HowItWorks />
       <Features />
+      <UstaadSection />
       <ExpertSpotlight />
       <Testimonials />
       <Stats />
