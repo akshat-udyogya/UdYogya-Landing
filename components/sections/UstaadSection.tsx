@@ -39,7 +39,7 @@ export default function UstaadSection() {
             <img src="/assets/logo-icon.png" alt="Ustaad" width={22} height={22}
               style={{ borderRadius: 5, flexShrink: 0 }} />
             <span style={{ fontFamily: 'var(--font-mono, monospace)', color: '#CE93D8',
-              fontSize: 11, letterSpacing: '0.18em' }}>USTAAD AI — POWERED BY CLAUDE</span>
+              fontSize: 11, letterSpacing: '0.18em' }}>USTAAD — INDUSTRIAL AI ASSISTANT</span>
           </div>
 
           <h2 className="font-display font-medium text-4xl md:text-5xl text-white mb-6 display-tight">

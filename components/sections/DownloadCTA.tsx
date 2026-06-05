@@ -55,8 +55,20 @@ export default function DownloadCTA() {
       <p className="mt-6 text-[rgba(255,255,255,0.45)] text-sm tracking-[0.015em]">{COPY.cta.fine}</p>
 
       {/* Footer */}
-      <div className="mt-24 pt-8 border-t border-[rgba(255,255,255,0.12)] w-full max-w-4xl flex flex-col md:flex-row items-center justify-between gap-4 text-[rgba(255,255,255,0.5)] text-sm tracking-[0.015em]">
+      <div className="mt-24 pt-8 border-t border-[rgba(255,255,255,0.12)] w-full max-w-4xl flex flex-col md:flex-row items-center justify-between gap-6 text-[rgba(255,255,255,0.5)] text-sm tracking-[0.015em]">
         <p>© 2026 Anarpakaya. All rights reserved.</p>
+
+        {/* Made in India */}
+        <div style={{ display:'flex', alignItems:'center', gap:8,
+          padding:'8px 18px', borderRadius:999,
+          background:'rgba(255,153,51,0.08)',
+          border:'1px solid rgba(255,153,51,0.25)' }}>
+          <span style={{ fontSize:18 }}>🇮🇳</span>
+          <span style={{ color:'rgba(255,255,255,0.7)', fontWeight:600, fontSize:13 }}>
+            Proudly Made in India
+          </span>
+        </div>
+
         <div style={{ display:'flex', alignItems:'center', gap:8 }}>
           <img
             src="/assets/logo-icon.png"
