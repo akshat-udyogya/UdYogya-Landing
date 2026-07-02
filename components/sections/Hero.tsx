@@ -4,7 +4,7 @@ import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/Button'
 import { PlayStoreBadge } from '@/components/ui/PlayStoreBadge'
-import { COPY, PLAY_STORE_URL } from '@/lib/constants'
+import { COPY, WEB_APP_URL } from '@/lib/constants'
 
 // Dynamic import wraps the entire Canvas + R3F scene so next/dynamic mock
 // suppresses all Three.js code in jsdom test environments.
@@ -79,12 +79,12 @@ export default function Hero() {
           <a href="#features"     className="hover:text-white transition-colors">Features</a>
           <a href="#how-it-works" className="hover:text-white transition-colors">How It Works</a>
           <Button
-            href={PLAY_STORE_URL}
+            href={WEB_APP_URL}
             variant="primary"
             className="text-sm"
-            ariaLabel="Get the Udyogya app on Google Play"
+            ariaLabel="Open the Udyogya web app"
           >
-            Download
+            Open App
           </Button>
         </div>
       </motion.nav>

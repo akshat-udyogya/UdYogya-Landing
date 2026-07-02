@@ -45,7 +45,7 @@ export const COPY = {
   cta: {
     headline: 'Resolve Your Next Fault Faster.',
     sub:      'Free to download. Chat free forever. Pay only for consultations. GST invoices included.',
-    fine:     'Available on Android. iOS coming soon.',
+    fine:     'Android app launching soon — use the web app today. iOS to follow.',
   },
 }
 

@@ -115,7 +115,7 @@ export function ExpertPanel({ module, onClose }: ExpertPanelProps) {
 
           {/* CTA */}
           <a
-            href="https://play.google.com/store/apps/details?id=com.udyogya"
+            href="https://expert.udyogya.com"
             target="_blank"
             rel="noreferrer"
             style={{

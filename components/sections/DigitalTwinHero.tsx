@@ -15,7 +15,7 @@ import { DataTicker }  from '@/components/ui/DataTicker'
 import { WebAppBadge } from '@/components/ui/WebAppBadge'
 import { MODULES }     from '@/components/three/DigitalTwinScene'
 import type { ModuleInfo } from '@/components/three/DigitalTwinScene'
-import { PLAY_STORE_URL } from '@/lib/constants'
+import { WEB_APP_URL } from '@/lib/constants'
 
 const DigitalTwinCanvas = dynamic(
   () => import('@/components/three/DigitalTwinCanvas'),
@@ -125,7 +125,7 @@ function NavBar({ mobile }: { mobile: boolean }) {
           <WebAppBadge size="sm" variant="cyan" label="WEB APP" />
         )}
         <a
-          href={PLAY_STORE_URL}
+          href={WEB_APP_URL}
           data-interactive
           style={{
             fontFamily:'var(--font-mono, monospace)',
@@ -303,19 +303,19 @@ function MobileHero({ onModuleClick }: { onModuleClick: (m: ModuleInfo) => void 
             transition={{ delay:1.0 }}
             style={{ display:'flex', gap:10, flexWrap:'wrap', marginBottom:28 }}
           >
-            <a
-              href={PLAY_STORE_URL}
+            <span
+              aria-label="Android app launching soon"
               style={{
                 fontFamily:'var(--font-mono, monospace)',
-                background:'#00FFFF', color:'#050A18',
+                background:'rgba(0,255,255,0.10)', color:'rgba(0,255,255,0.75)',
+                border:'1px dashed rgba(0,255,255,0.45)',
                 padding:'13px 24px', borderRadius:4,
                 fontWeight:700, fontSize:12,
-                letterSpacing:'0.10em', textDecoration:'none',
-                boxShadow:'0 0 24px rgba(0,255,255,0.32)',
+                letterSpacing:'0.10em', cursor:'default',
               }}
             >
-              ▶ DOWNLOAD APP
-            </a>
+              🤖 ANDROID APP — LAUNCHING SOON
+            </span>
             <WebAppBadge size="lg" variant="cyan" label="OPEN WEB APP" />
           </motion.div>
 
@@ -447,20 +447,19 @@ function DesktopHero({ onModuleClick }: { onModuleClick: (m: ModuleInfo) => void
             transition={{ delay:1.25 }}
             style={{ display:'flex', gap:14, flexWrap:'wrap', pointerEvents:'auto' }}
           >
-            <a
-              href={PLAY_STORE_URL}
-              data-interactive
+            <span
+              aria-label="Android app launching soon"
               style={{
                 fontFamily:'var(--font-mono, monospace)',
-                background:'#00FFFF', color:'#050A18',
+                background:'rgba(0,255,255,0.10)', color:'rgba(0,255,255,0.75)',
+                border:'1px dashed rgba(0,255,255,0.45)',
                 padding:'13px 28px', borderRadius:4,
                 fontWeight:700, fontSize:13, letterSpacing:'0.10em',
-                textDecoration:'none',
-                boxShadow:'0 0 24px rgba(0,255,255,0.3)',
+                cursor:'default',
               }}
             >
-              ▶ DOWNLOAD APP
-            </a>
+              🤖 ANDROID APP — LAUNCHING SOON
+            </span>
             <WebAppBadge size="lg" variant="cyan" label="OPEN WEB APP" />
             <button
               data-interactive
