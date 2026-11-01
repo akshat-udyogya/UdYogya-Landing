@@ -61,6 +61,7 @@
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--faint);
+  font-weight: 400;
   margin: 0;
 }
 .title {
