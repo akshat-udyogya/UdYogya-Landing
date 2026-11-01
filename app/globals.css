@@ -2,10 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Custom scrollbar — Revolut cobalt on true black */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: #000000; }
-::-webkit-scrollbar-thumb { background: #494fdf; border-radius: 3px; }
+/* Custom scrollbar — Revolut cobalt on true black. The expert page only (app/expert/layout.tsx): the umbrella at / is light. */
+html:has([data-expert])::-webkit-scrollbar { width: 6px; }
+html:has([data-expert])::-webkit-scrollbar-track { background: #000000; }
+html:has([data-expert])::-webkit-scrollbar-thumb { background: #494fdf; border-radius: 3px; }
 
 /* Reduced motion: freeze all animations */
 @media (prefers-reduced-motion: reduce) {
@@ -17,7 +17,7 @@
 }
 
 /* Selection colour — Revolut cobalt */
-::selection { background: rgba(73,79,223,0.35); color: #fff; }
+[data-expert] ::selection { background: rgba(73,79,223,0.35); color: #fff; }
 
 /* Display type helpers — tight stacking at large sizes */
 .display-tight {

@@ -24,13 +24,14 @@ const orbitron = Orbitron({
   display: 'swap',
 })
 
+// udyogya.com is the umbrella over the products (app/page.tsx); the expert network's own page lives at /expert.
 export const metadata: Metadata = {
-  title: "Udyogya — India's Expert Network, In Your Pocket",
+  title: 'Udyogya — software for the people who keep factories running',
   description:
-    'Connect with verified professionals in minutes. Chat free forever. GST-compliant invoices for every consultation. Download on Android.',
+    'Udyogya Expert for industrial expertise on demand, MERP for running a manufacturing plant, and Store, a seller network coming next.',
   openGraph: {
-    title:       "Udyogya — India's Expert Network",
-    description: 'Chat with verified experts — free, forever.',
+    title:       'Udyogya',
+    description: 'Expert, MERP and Store — software for the people who keep factories running.',
     url:         'https://udyogya.com',
     siteName:    'Udyogya',
     locale:      'en_IN',
@@ -41,7 +42,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${inter.variable} ${jakartaSans.variable} ${orbitron.variable}`}>
-      <body className="bg-background text-white antialiased overflow-x-hidden">
+      <body className="antialiased">
         {children}
       </body>
     </html>

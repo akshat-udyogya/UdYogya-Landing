@@ -1,16 +1,4 @@
 {
   "buildCommand": "npm run build",
-  "outputDirectory": "out",
-  "redirects": [
-    {
-      "source": "/",
-      "destination": "https://merp.udyogya.com/",
-      "permanent": false
-    },
-    {
-      "source": "/:path*",
-      "destination": "https://merp.udyogya.com/:path*",
-      "permanent": false
-    }
-  ]
+  "outputDirectory": "out"
 }
