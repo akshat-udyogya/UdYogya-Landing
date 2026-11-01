@@ -75,7 +75,7 @@ export default function Umbrella() {
           <ul className={s.links}>
             <li>
               <span className={s.tag}>Live</span>
-              <span>When a breakdown in MERP has kept a machine down for more than two hours (each plant can change the time), MERP offers a way to reach an engineer on Expert.</span>
+              <span>When a breakdown in MERP has kept a machine down for more than two hours (each company can change the time), MERP offers a way to reach an engineer on Expert.</span>
             </li>
             <li>
               <span className={`${s.tag} ${s.planned}`}>Planned</span>

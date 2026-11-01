@@ -1,5 +1,12 @@
 {
   "buildCommand": "npm run build",
   "outputDirectory": "out",
-  "cleanUrls": true
+  "cleanUrls": true,
+  "redirects": [
+    {
+      "source": "/expert",
+      "destination": "https://expert.udyogya.com/",
+      "permanent": false
+    }
+  ]
 }

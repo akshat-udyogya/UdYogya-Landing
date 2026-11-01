@@ -24,7 +24,7 @@ const orbitron = Orbitron({
   display: 'swap',
 })
 
-// udyogya.com is the umbrella over the products (app/page.tsx); the expert network's own page lives at /expert.
+// udyogya.com is the umbrella over the products (app/page.tsx); each product's page lives on its own subdomain.
 export const metadata: Metadata = {
   title: 'Udyogya — software for the people who keep factories running',
   description:
